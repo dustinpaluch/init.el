@@ -41,16 +41,6 @@
 ;; scrolling
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
-;; Space -> hyphen
-(defadvice smex (around space-inserts-hyphen activate compile)
-  (let ((ido-cannot-complete-command 
-         `(lambda ()
-            (interactive)
-            (if (string= " " (this-command-keys))
-                (insert ?-)
-              (funcall ,ido-cannot-complete-command)))))
-    ad-do-it))
-
 ;;;; PACKAGES
 
 ;; manually installed packages
@@ -63,6 +53,16 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize) ;; You might already have this line
+
+;; Space -> hyphen
+(defadvice smex (around space-inserts-hyphen activate compile)
+  (let ((ido-cannot-complete-command 
+         `(lambda ()
+            (interactive)
+            (if (string= " " (this-command-keys))
+                (insert ?-)
+              (funcall ,ido-cannot-complete-command)))))
+    ad-do-it))
 
 ;; match path with shell
 (when (memq window-system '(mac ns))
