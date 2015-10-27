@@ -139,6 +139,8 @@
 (global-set-key (kbd "C-c s") 'ag)
 
 ;; company-mode
+(company-mode 1)
+(company-statistics-mode 1)
 (setq company-idle-delay 0)
 
 ;; nlinum
