@@ -5,7 +5,7 @@
 (delete-selection-mode 1)
 (setq scroll-conservatively 10000)
 
-(define-key dired-mode-map [mouse-2] 'dired-find-file))
+(define-key dired-mode-map [mouse-2] 'dired-find-file)
 
 ;; disable bell for some events
 (defun my-bell-function ()
