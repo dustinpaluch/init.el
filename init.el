@@ -119,10 +119,15 @@
 
 (setq web-mode-enable-current-element-highlight t)
 
-;; enable truncate lines based on context
-(add-hook 'ag-mode-hook (lambda () (setq truncate-lines t)))
-(add-hook 'occur-mode-hook (lambda () (setq truncate-lines t)))
-(add-hook 'dired-mode-hook (lambda () (setq truncate-lines t)))
+
+(defun my-disable-truncation ()
+  "Turn off truncate lines"
+  (setq truncate-lines t))
+
+(add-hook 'ag-mode-hook 'my-disable-truncation)
+(add-hook 'occur-mode-hook 'my-disable-truncation)
+(add-hook 'dired-mode-hook 'my-disable-truncation)
+(add-hook 'paradox-menu-mode-hook 'my-disable-truncation)
 
 ;; occur
 (global-set-key (kbd "C-c o") 'occur)
