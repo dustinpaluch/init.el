@@ -5,6 +5,8 @@
 (delete-selection-mode 1)
 (setq scroll-conservatively 10000)
 
+(define-key dired-mode-map [mouse-2] 'dired-find-file))
+
 ;; disable bell for some events
 (defun my-bell-function ()
   (unless (memq this-command
@@ -87,7 +89,6 @@
 
 ;; dired-x
 (require 'dired-x)
-(define-key dired-mode-map [mouse-2] 'dired-find-file))
 
 ;; zop-to-char
 (global-set-key [remap zap-to-char] 'zop-to-char)
@@ -122,6 +123,7 @@
 ;; enable truncate lines based on context
 (add-hook 'ag-mode-hook (lambda () (setq truncate-lines t)))
 (add-hook 'occur-mode-hook (lambda () (setq truncate-lines t)))
+(add-hook 'dired-mode-hook (lambda () (setq truncate-lines t)))
 
 ;; occur
 (global-set-key (kbd "C-c o") 'occur)
