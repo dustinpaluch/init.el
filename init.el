@@ -87,6 +87,7 @@
 
 ;; dired-x
 (require 'dired-x)
+(define-key dired-mode-map [mouse-2] 'dired-find-file))
 
 ;; zop-to-char
 (global-set-key [remap zap-to-char] 'zop-to-char)
