@@ -5,6 +5,13 @@
 (delete-selection-mode 1)
 (setq scroll-conservatively 10000)
 
+;; disable bell for some events
+(defun my-bell-function ()
+  (unless (memq this-command
+				'(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit mwheel-scroll down up next-line previous-line backward-char forward-char))
+	(ding)))
+(setq ring-bell-function 'my-bell-function)
+
 (defun split-horizontally-for-temp-buffers ()
        "Split the window horizontally for temp buffers."
        (when (and (one-window-p t)
@@ -31,6 +38,8 @@
                 (when (stringp method)
                   (member method '("su" "sudo"))))))))
 
+
+
 ;; ignore backup-directory-alist for TRAMP files
 (add-to-list 'backup-directory-alist
              (cons tramp-file-name-regexp nil))
@@ -41,7 +50,10 @@
 ;; scrolling
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
-;;;; PACKAGES
+;; visual lines
+(global-visual-line-mode 1)
+
+;;;; PACKAGE CONFIG
 
 ;; manually installed packages
 (let ((default-directory "~/.emacs.d/lisp/"))
@@ -53,16 +65,6 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize) ;; You might already have this line
-
-;; Space -> hyphen
-(defadvice smex (around space-inserts-hyphen activate compile)
-  (let ((ido-cannot-complete-command 
-         `(lambda ()
-            (interactive)
-            (if (string= " " (this-command-keys))
-                (insert ?-)
-              (funcall ,ido-cannot-complete-command)))))
-    ad-do-it))
 
 ;; match path with shell
 (when (memq window-system '(mac ns))
@@ -76,21 +78,19 @@
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key [f6] 'ivy-resume)
 
+;; org mode
+(add-hook 'org-mode-hook (lambda ()
+						   (org-indent-mode 1)))
+
+;; tramp
+(setq tramp-default-method "ssh")
+
 ;; dired-x
 (require 'dired-x)
 
-;; SMEX
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
 ;; zop-to-char
 (global-set-key [remap zap-to-char] 'zop-to-char)
-
-(require 'ido-vertical-mode)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(global-set-key (kbd "C-c C-c M-z") 'zap-to-char) ; old zap-to-char
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -118,13 +118,6 @@
 
 (setq web-mode-enable-current-element-highlight t)
 
-;; org mode
-(defun my-org-mode-hook ()
-  "Hooks for Org mode."
-  (org-indent-mode 1)
-  )
-(add-hook 'org-mode-hook  'my-org-mode-hook)
-
 ;; enable truncate lines based on context
 (add-hook 'ag-mode-hook (lambda () (setq truncate-lines t)))
 (add-hook 'occur-mode-hook (lambda () (setq truncate-lines t)))
@@ -142,10 +135,10 @@
 (setq company-idle-delay 0)
 
 ;; nlinum
-(defun my-prog-mode-hook ()
-  "Hooks for prog mode."
-  (nlinum-mode 1))
-(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+(add-hook 'prog-mode-hook  (lambda ()
+							 (nlinum-mode 1)
+							 (electric-indent-mode 1)
+							 (electric-pair-mode 1)))
 
 ;;multiple-cursors
 (require 'multiple-cursors)
