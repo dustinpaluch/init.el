@@ -139,9 +139,9 @@
 (global-set-key (kbd "C-c s") 'ag)
 
 ;; company-mode
-(company-mode 1)
+(global-company-mode 1)
 (company-statistics-mode 1)
-(setq company-idle-delay 0)
+(setq company-idle-delay 0.3)
 
 ;; nlinum
 (add-hook 'prog-mode-hook  (lambda ()
