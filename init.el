@@ -118,6 +118,10 @@
   (setq web-mode-code-indent-offset 4)
   (setq web-mode-indent-style 4)
   (emmet-mode 1)
+  (add-hook 'local-write-file-hooks
+            (lambda ()
+               (delete-trailing-whitespace)
+               nil))
   )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
