@@ -127,6 +127,11 @@
 
 (setq web-mode-enable-current-element-highlight t)
 
+;; SCSS mode
+(add-hook 'scss-mode-hook (lambda()
+							(rainbow-mode 1)
+							(nlinum-mode 1)))
+
 
 (defun my-disable-truncation ()
   "Turn off truncate lines"
