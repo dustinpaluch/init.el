@@ -101,6 +101,9 @@
 ;; projectile
 (projectile-global-mode 1)
 
+;; change wgrep key
+(setq wgrep-enable-key "r")
+
 ;; web mode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
