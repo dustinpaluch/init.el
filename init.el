@@ -195,7 +195,6 @@
  '(frame-resize-pixelwise t)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
- '(ido-vertical-mode t)
  '(ivy-mode t)
  '(menu-bar-mode nil)
  '(paradox-github-token t)
