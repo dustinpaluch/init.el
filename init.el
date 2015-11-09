@@ -133,14 +133,17 @@
 							(nlinum-mode 1)))
 
 
+
 (defun my-disable-truncation ()
-  "Turn off truncate lines"
+  "Locally enable line truncation"
+  (visual-line-mode 0)
   (setq truncate-lines t))
 
-(add-hook 'ag-mode-hook 'my-disable-truncation)
 (add-hook 'occur-mode-hook 'my-disable-truncation)
 (add-hook 'dired-mode-hook 'my-disable-truncation)
 (add-hook 'paradox-menu-mode-hook 'my-disable-truncation)
+(add-hook 'ag-mode-hook 'my-disable-truncation)
+(add-hook 'scss-mode-hook 'my-disable-truncation)
 
 ;; occur
 (global-set-key (kbd "C-c o") 'occur)
