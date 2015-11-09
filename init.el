@@ -157,7 +157,7 @@
 ;; company-mode
 (global-company-mode 1)
 (company-statistics-mode 1)
-(setq company-idle-delay 0.3)
+(setq company-idle-delay 0)
 
 ;; nlinum
 (add-hook 'prog-mode-hook  (lambda ()
