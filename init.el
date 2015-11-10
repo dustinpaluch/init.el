@@ -177,6 +177,27 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 (global-set-key [s-mouse-1] 'mc/add-cursor-on-click)
 
+;; ERC BUFFER LOCAL FILL COLUMN
+(make-variable-buffer-local 'erc-fill-column)
+(add-hook 'window-configuration-change-hook 
+		  '(lambda ()
+			 (save-excursion
+			   (walk-windows
+				(lambda (w)
+				  (let ((buffer (window-buffer w)))
+					(set-buffer buffer)
+					(when (eq major-mode 'erc-mode)
+					  (setq erc-fill-column (- (window-width w) 2)))))))))
+
+;; MOVE ERC TIMESTAMP
+(setq erc-timestamp-only-if-changed-flag nil
+      erc-timestamp-format "%H:%M "
+      erc-fill-prefix "      "
+      erc-insert-timestamp-function 'erc-insert-timestamp-left)
+
+;; ERC SCROLL TO BOTTOM
+(setq erc-input-line-position -1)
+
 ;;;; VIA CUSTOMIZE GUI
 
 (custom-set-variables
@@ -197,6 +218,10 @@
  '(dired-dwim-target t)
  '(emmet-move-cursor-between-quotes t)
  '(emmet-preview-default nil)
+ '(erc-fill-function (quote erc-fill-static))
+ '(erc-fill-static-center 14)
+ '(erc-nick "paluche")
+ '(erc-scrolltobottom-mode t)
  '(frame-resize-pixelwise t)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
@@ -216,4 +241,11 @@
  '(default ((t (:inherit nil :stipple nil :background "#161A1F" :foreground "#DEDEDE" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "nil" :family "Menlo"))))
  '(bm-fringe-persistent-face ((t (:background "selectedMenuItemColor" :foreground "White"))))
  '(trailing-whitespace ((t (:background "#21262E"))))
+ '(erc-current-nick-face ((t (:foreground "cyan" :weight bold))))
+ '(erc-input-face ((t (:foreground "#555"))))
+ '(erc-my-nick-face ((t (:foreground "#FF0000" :weight bold))))
+ '(erc-nick-default-face ((t (:foreground "#FD971F" :weight bold))))
+ '(erc-notice-face ((t (:foreground "#0C2D36" :weight bold))))
+ '(erc-prompt-face ((t (:foreground "#EEEEEE" :weight bold))))
+ '(erc-timestamp-face ((t (:foreground "#A6E22E" :weight bold))))
  '(web-mode-comment-keyword-face ((t (:foreground "Pink" :slant italic :weight bold)))))
