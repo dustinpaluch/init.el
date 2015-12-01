@@ -248,6 +248,8 @@
  '(frame-resize-pixelwise t)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
+ '(initial-scratch-message ";; Scratch
+")
  '(ivy-mode t)
  '(menu-bar-mode nil)
  '(paradox-github-token t)
