@@ -251,6 +251,7 @@
  '(initial-scratch-message ";; Scratch
 ")
  '(ivy-mode t)
+ '(ivy-wrap t)
  '(menu-bar-mode nil)
  '(paradox-github-token t)
  '(projectile-completion-system (quote ivy))
