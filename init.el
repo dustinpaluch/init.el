@@ -92,7 +92,7 @@
 (setq magit-completing-read-function 'ivy-completing-read)
 
 ;; projectile
-(projectile-global-mode 1)
+;(projectile-global-mode 1)
 
 ;; change wgrep key
 (setq wgrep-enable-key "r")
