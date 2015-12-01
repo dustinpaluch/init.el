@@ -142,9 +142,6 @@
 (add-hook 'paradox-menu-mode-hook 'my-disable-truncation)
 (add-hook 'ag-mode-hook 'my-disable-truncation)
 (add-hook 'scss-mode-hook 'my-disable-truncation)
-
-;; occur
-(global-set-key (kbd "C-c o") 'occur)
 (add-hook 'buffer-menu-mode-hook 'my-disable-truncation)
 
 ;; avy
