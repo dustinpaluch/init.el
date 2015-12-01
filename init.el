@@ -213,6 +213,12 @@
 													  css-mode        web-mode))
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
+
+;; make it harder to accidentally delete a frame
+(global-set-key (kbd "s-w") nil)
+(global-set-key (kbd "s-W") 'delete-frame)
+
+
 ;;;; VIA CUSTOMIZE GUI
 
 (custom-set-variables
