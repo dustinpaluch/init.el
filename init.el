@@ -148,7 +148,7 @@
 (add-hook 'buffer-menu-mode-hook 'my-disable-truncation)
 
 ;; avy
-(global-set-key (kbd "C-c j") 'avy-goto-char)
+(global-set-key (kbd "C-c ;") 'avy-goto-char)
 
 ;; ag
 (global-set-key (kbd "C-c s") 'ag)
