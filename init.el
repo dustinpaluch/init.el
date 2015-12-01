@@ -145,6 +145,7 @@
 
 ;; occur
 (global-set-key (kbd "C-c o") 'occur)
+(add-hook 'buffer-menu-mode-hook 'my-disable-truncation)
 
 ;; avy
 (global-set-key (kbd "C-c j") 'avy-goto-char)
