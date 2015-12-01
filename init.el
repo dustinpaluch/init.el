@@ -199,6 +199,20 @@
     ("p" lorem-ipsum-insert-paragraphs "paragraph")
 	("RET" newline "newline")
 	("q" nil "quit"))
+;; indent after paste
+(dolist (command '(yank yank-pop))
+   (eval `(defadvice ,command (after indent-region activate)
+            (and (not current-prefix-arg)
+                 (member major-mode '(emacs-lisp-mode lisp-mode
+                                                      clojure-mode    scheme-mode
+                                                      haskell-mode    ruby-mode
+                                                      rspec-mode      python-mode
+                                                      c-mode          c++-mode
+                                                      objc-mode       latex-mode
+                                                      plain-tex-mode  scss-mode
+													  css-mode        web-mode))
+                 (let ((mark-even-if-inactive transient-mark-mode))
+                   (indent-region (region-beginning) (region-end) nil))))))
 ;;;; VIA CUSTOMIZE GUI
 
 (custom-set-variables
