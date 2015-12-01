@@ -255,6 +255,9 @@
  '(menu-bar-mode nil)
  '(paradox-github-token t)
  '(projectile-completion-system (quote ivy))
+ '(rainbow-html-colors-major-mode-list
+   (quote
+	(html-mode css-mode scss-mode php-mode nxml-mode xml-mode)))
  '(show-trailing-whitespace t)
  '(tab-width 4)
  '(tool-bar-mode nil)
