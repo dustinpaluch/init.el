@@ -192,6 +192,9 @@
 ;; ERC SCROLL TO BOTTOM
 (setq erc-input-line-position -1)
 
+;; turn off company mode in ERC
+(add-hook 'erc-mode-hook (lambda ()
+						   (company-mode 0)))
 ;;;; VIA CUSTOMIZE GUI
 
 (custom-set-variables
