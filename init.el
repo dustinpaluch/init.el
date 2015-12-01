@@ -13,13 +13,6 @@
 	(ding)))
 (setq ring-bell-function 'my-bell-function)
 
-(defun split-horizontally-for-temp-buffers ()
-       "Split the window horizontally for temp buffers."
-       (when (and (one-window-p t)
-     	     (not (active-minibuffer-window)))
-         (split-window-horizontally)))
-(add-hook 'temp-buffer-setup-hook 'split-horizontally-for-temp-buffers)
-
 ;; emacs backups
 (setq
  backup-by-copying t ; don't clobber symlinks
