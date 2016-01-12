@@ -60,6 +60,8 @@
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize) ;; You might already have this line
 
+(global-set-key (kbd "M-y") 'counsel-yank-pop)
+
 ;; match path with shell
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
