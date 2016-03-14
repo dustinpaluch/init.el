@@ -405,3 +405,5 @@
  '(rainbow-delimiters-depth-7-face ((t (:foreground "violet"))))
  '(trailing-whitespace ((t (:background "#21262E"))))
  '(web-mode-comment-keyword-face ((t (:foreground "Pink" :slant italic :weight bold)))))
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
