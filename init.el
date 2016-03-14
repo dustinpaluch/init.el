@@ -346,6 +346,7 @@
  '(custom-safe-themes
    (quote
 	("0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default)))
+ '(delete-selection-mode t)
  '(dired-dwim-target t)
  '(electric-pair-mode t)
  '(emmet-move-cursor-between-quotes t)
