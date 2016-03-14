@@ -374,6 +374,7 @@
  '(tab-width 4)
  '(tool-bar-mode nil)
  '(web-mode-enable-current-column-highlight nil))
+ '(winner-mode t)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
