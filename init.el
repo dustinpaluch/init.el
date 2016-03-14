@@ -376,6 +376,7 @@
 	 (projectile-project-name . "crs"))))
  '(show-trailing-whitespace t)
  '(tab-width 4)
+ '(tags-revert-without-query t)
  '(tool-bar-mode nil)
  '(web-mode-enable-current-column-highlight nil))
  '(winner-mode t)
