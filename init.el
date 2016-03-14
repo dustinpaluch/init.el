@@ -360,6 +360,7 @@
  '(frame-resize-pixelwise t)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
+ '(help-window-select t)
  '(initial-scratch-message ";; Scratch
 ")
  '(ivy-mode t)
