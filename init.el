@@ -375,6 +375,7 @@
    (quote
 	((projectile-project-name . "beacon")
 	 (projectile-project-name . "crs"))))
+ '(scss-sass-options (quote ("-E 'UTF-8'")))
  '(show-trailing-whitespace t)
  '(tab-width 4)
  '(tags-revert-without-query t)
