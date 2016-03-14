@@ -282,6 +282,30 @@
 			 (kbd "SPC")
 			 'osx-quick-look)))
 
+;; circe
+(setq circe-network-options
+      '(("Freenode"
+         :tls t
+         :nick "paluche"
+         :sasl-username "paluche"
+         :sasl-password ""
+         :channels ("#emacs-circe")
+         )))
+
+(setq circe-reduce-lurker-spam t)
+(setq circe-format-server-topic "*** Topic change by {userhost}: {topic-diff}")
+(setq
+ lui-time-stamp-position 'right-margin
+ lui-fill-type nil)
+
+(add-hook 'lui-mode-hook 'my-lui-setup)
+(defun my-lui-setup ()
+  (setq
+   fringes-outside-margins t
+   right-margin-width 5
+   word-wrap t
+   wrap-prefix "    "))
+
 ;; indent after paste
 (dolist (command '(yank yank-pop))
    (eval `(defadvice ,command (after indent-region activate)
