@@ -5,6 +5,26 @@
 (delete-selection-mode 1)
 (setq scroll-conservatively 10000)
 (global-set-key (kbd "C-h g") 'customize-group)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-h a") 'apropos)
+(global-set-key (kbd "C-c x") 'er/expand-region)
+(global-set-key (kbd "<S-s-left>") nil) ; redundant?
+(global-set-key (kbd "<S-s-right>") nil) ; redundant?
+(global-set-key (kbd "<s-left>") 'move-beginning-of-line)
+(global-set-key (kbd "<s-right>") 'move-end-of-line)
+(global-set-key (kbd "<s-up>") 'beginning-of-buffer)
+(global-set-key (kbd "<s-down>") 'end-of-buffer)
+(global-set-key (kbd "<C-s-up>") 'windmove-up)
+(global-set-key (kbd "<C-s-down>") 'windmove-down)
+(global-set-key (kbd "<C-s-left>") 'windmove-left)
+(global-set-key (kbd "<C-s-right>") 'windmove-right)
+(global-set-key (kbd "s-0") 'delete-window)
+(global-set-key (kbd "s-1") 'delete-other-windows)
+(global-set-key (kbd "s-@") 'my-clone-dwim)
+(global-set-key (kbd "<f13>") 'rotate-frame-anticlockwise)
+(global-set-key (kbd "<f15>") 'rotate-frame-clockwise)
+(global-set-key (kbd "<f14>") 'flip-frame)
+(defalias 'ediff 'ediff-buffers)
 
 ;; disable bell for some events
 (defun my-bell-function ()
