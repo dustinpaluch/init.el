@@ -28,6 +28,16 @@
 
 (add-hook 'emacs-lisp-mode-hook (lambda ()
 								  (eldoc-mode 1)))
+
+(eval-after-load 'dired
+  '(define-key dired-mode-map (kbd "<home>") 'dired-up-directory))
+(eval-after-load 'dired
+  '(define-key dired-mode-map (kbd "<end>") 'dired-find-file))
+(eval-after-load 'dired
+  '(define-key dired-mode-map (kbd "<prior>") 'dired-previous-line))
+(eval-after-load 'dired
+  '(define-key dired-mode-map (kbd "<next>") 'dired-next-line))
+
 ;; disable bell for some events
 (defun my-bell-function ()
   (unless (memq this-command
