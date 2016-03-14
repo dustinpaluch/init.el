@@ -240,7 +240,7 @@
 
 ;; MOVE ERC TIMESTAMP
 (setq erc-timestamp-only-if-changed-flag nil
-      erc-timestamp-format "%H:%M "
+      erc-timestamp-format "%s "
       erc-fill-prefix "      "
       erc-insert-timestamp-function 'erc-insert-timestamp-left)
 
