@@ -350,7 +350,7 @@
  '(emmet-move-cursor-between-quotes t)
  '(emmet-preview-default nil)
  '(erc-fill-function (quote erc-fill-static))
- '(erc-fill-static-center 14)
+ '(erc-fill-static-center 18)
  '(erc-nick "paluche")
  '(erc-scrolltobottom-mode t)
  '(frame-resize-pixelwise t)
