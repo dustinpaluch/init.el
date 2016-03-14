@@ -38,6 +38,21 @@
 (eval-after-load 'dired
   '(define-key dired-mode-map (kbd "<next>") 'dired-next-line))
 
+(defun my-clone-dwim ()
+  "Duplicate the line at point."
+  (interactive)
+  (if mark-active
+	  (progn
+		(kill-region (region-beginning) (region-end))
+		(yank)
+		(newline-and-indent)
+		(yank))
+	(progn
+	  (kill-whole-line)
+	  (yank)
+	  (yank)
+	  (backward-char))))
+
 ;; disable bell for some events
 (defun my-bell-function ()
   (unless (memq this-command
