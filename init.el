@@ -186,9 +186,9 @@
 
 ;; SCSS mode
 (add-hook 'scss-mode-hook (lambda()
-							(rainbow-mode 1)
-							(nlinum-mode 1)))
-
+			    (rainbow-mode 1)
+			    (rainbow-delimiters-mode 1)
+			    (git-gutter+-mode 1)))
 
 
 (defun my-disable-truncation ()
