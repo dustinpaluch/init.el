@@ -382,6 +382,7 @@
  '(tool-bar-mode nil)
  '(web-mode-enable-current-column-highlight nil))
  '(winner-mode t)
+ '(yas-global-mode t nil (yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
