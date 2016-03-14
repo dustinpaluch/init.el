@@ -258,6 +258,30 @@
     ("p" lorem-ipsum-insert-paragraphs "paragraph")
 	("RET" newline "newline")
 	("q" nil "quit"))
+
+;; macros
+
+(fset 'save-line-to-kill-ring
+   [?\C-a ?\S-\C-e ?\M-w])
+
+
+(fset 'wrap-css-property
+	  [?\{ return ?\C-e ?\C-b return ?\C-p ?\C-p ?  ?\C-b])
+
+(fset 'osx-open
+	  [?w ?\M-! ?o ?p ?e ?n ?  ?\s-v return])
+
+(global-set-key (kbd "<s-return>") 'osx-open)
+
+(fset 'osx-quick-look
+	  [?w ?\M-! ?q ?l ?m ?a ?n ?a ?g ?e ?  ?- ?p ?  ?. ?/ ?\C-y ?  ?> ?/ ?d ?e ?v ?/ ?n ?u ?l ?l ?  ?2 ?> ?& ?1 return])
+
+(add-hook 'dired-mode-hook
+		  (lambda ()
+			(local-set-key
+			 (kbd "SPC")
+			 'osx-quick-look)))
+
 ;; indent after paste
 (dolist (command '(yank yank-pop))
    (eval `(defadvice ,command (after indent-region activate)
