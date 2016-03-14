@@ -26,6 +26,8 @@
 (global-set-key (kbd "<f14>") 'flip-frame)
 (defalias 'ediff 'ediff-buffers)
 
+(add-hook 'emacs-lisp-mode-hook (lambda ()
+								  (eldoc-mode 1)))
 ;; disable bell for some events
 (defun my-bell-function ()
   (unless (memq this-command
