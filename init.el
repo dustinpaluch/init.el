@@ -180,6 +180,7 @@
   (setq web-mode-indent-style 4)
   (emmet-mode 1)
   (git-gutter+-mode 1))
+
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
 (setq web-mode-enable-current-element-highlight t)
@@ -189,7 +190,6 @@
 			    (rainbow-mode 1)
 			    (rainbow-delimiters-mode 1)
 			    (git-gutter+-mode 1)))
-
 
 (defun my-disable-truncation ()
   "Locally enable line truncation"
@@ -251,6 +251,7 @@
 (add-hook 'erc-mode-hook (lambda ()
 						   (company-mode 0)
 						   (electric-pair-mode 0)))
+
 (defhydra hydra-insert-lipsum (global-map "C-c l")
     "Insert lorem ipsum"
     ("s" lorem-ipsum-insert-sentences "sentence")
