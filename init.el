@@ -160,11 +160,13 @@
 
 ;; change wgrep key
 (setq wgrep-enable-key "r")
+
+;; wdired hotkey
 (add-hook 'dired-mode-hook
 		  (lambda ()
 			(local-set-key
 			 (kbd "r")
-			 'wgrep-change-to-wgrep-mode)))
+			 'wdired-change-to-wdired-mode)))
 
 ;; web mode
 (require 'web-mode)
