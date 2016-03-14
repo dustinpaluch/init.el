@@ -26,8 +26,6 @@
 (global-set-key (kbd "<f14>") 'flip-frame)
 (defalias 'ediff 'ediff-buffers)
 
-(add-hook 'ediff-mode-hook (lambda ()
-							 (column-enforce-mode 0)))
 ;; disable bell for some events
 (defun my-bell-function ()
   (unless (memq this-command
