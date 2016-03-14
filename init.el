@@ -249,7 +249,8 @@
 
 ;; turn off company mode in ERC
 (add-hook 'erc-mode-hook (lambda ()
-						   (company-mode 0)))
+						   (company-mode 0)
+						   (electric-pair-mode 0)))
 (defhydra hydra-insert-lipsum (global-map "C-c l")
     "Insert lorem ipsum"
     ("s" lorem-ipsum-insert-sentences "sentence")
