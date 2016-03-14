@@ -214,9 +214,8 @@
 (company-statistics-mode 1)
 (setq company-idle-delay 0)
 
-;; nlinum
+;; prog-mode
 (add-hook 'prog-mode-hook  (lambda ()
-							 (nlinum-mode 1)
 							 (electric-indent-mode 1)
 							 (electric-pair-mode 1)))
 
