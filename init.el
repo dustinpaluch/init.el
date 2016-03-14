@@ -388,6 +388,7 @@
  '(erc-notice-face ((t (:foreground "#2A4B54" :weight bold))))
  '(erc-prompt-face ((t (:foreground "#EEEEEE" :weight bold))))
  '(erc-timestamp-face ((t (:foreground "#A6E22E" :weight bold))))
+ '(ivy-remote ((t (:foreground "coral1"))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "red"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "orange"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
