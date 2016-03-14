@@ -106,7 +106,16 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
+
+;; Check if we're on Emacs 24.4 or newer, if so, use the pinned package feature
+(when (boundp 'package-pinned-packages)
+  (setq package-pinned-packages
+		'((magit . "melpa-stable")
+		  (magit-popup . "melpa-stable")
+		  (company . "melpa-stable")))
+
 (package-initialize)
+
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 
 ;; match path with shell
