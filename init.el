@@ -155,9 +155,6 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (setq magit-completing-read-function 'ivy-completing-read)
 
-;; projectile
-;(projectile-global-mode 1)
-
 ;; change wgrep key
 (setq wgrep-enable-key "r")
 
@@ -321,6 +318,7 @@
  '(menu-bar-mode nil)
  '(paradox-github-token t)
  '(projectile-completion-system (quote ivy))
+ '(projectile-global-mode t)
  '(rainbow-html-colors-major-mode-list
    (quote
 	(html-mode css-mode scss-mode php-mode nxml-mode xml-mode)))
