@@ -370,6 +370,10 @@
  '(rainbow-html-colors-major-mode-list
    (quote
 	(html-mode css-mode scss-mode php-mode nxml-mode xml-mode)))
+ '(safe-local-variable-values
+   (quote
+	((projectile-project-name . "beacon")
+	 (projectile-project-name . "crs"))))
  '(show-trailing-whitespace t)
  '(tab-width 4)
  '(tool-bar-mode nil)
