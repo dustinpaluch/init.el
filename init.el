@@ -382,7 +382,7 @@
  '(tab-width 4)
  '(tags-revert-without-query t)
  '(tool-bar-mode nil)
- '(web-mode-enable-current-column-highlight nil))
+ '(web-mode-enable-current-column-highlight nil)
  '(winner-mode t)
  '(yas-global-mode t nil (yasnippet)))
 (custom-set-faces
