@@ -159,6 +159,7 @@
 (setq wgrep-enable-key "r")
 
 ;; wdired hotkey
+; I should do this in dired-mode-map...
 (add-hook 'dired-mode-hook
 		  (lambda ()
 			(local-set-key
