@@ -38,6 +38,22 @@
 (eval-after-load 'dired
   '(define-key dired-mode-map (kbd "<next>") 'dired-next-line))
 
+(defun my-kill-ring-save-dwim (beg end &optional region)
+  "If region is active, call kill-ring-save as usual. Otherwise, set region to
+the current line, then call kill-ring-save."
+  (interactive (list (mark) (point)
+					 (prefix-numeric-value current-prefix-arg)))
+  (save-excursion
+	(if (region-active-p)
+		(copy-region-as-kill beg end region)
+	  (move-beginning-of-line nil)
+	  (set-mark-command nil)
+	  (move-end-of-line nil)
+	  (setq deactivate-mark nil)
+	  (copy-region-as-kill beg end region))))
+
+(global-set-key (kbd "M-w") 'my-kill-ring-save-dwim)
+
 (defun my-clone-dwim ()
   "Duplicate the line at point."
   (interactive)
