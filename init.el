@@ -279,10 +279,6 @@ the current line, then call kill-ring-save."
 
 ;; macros
 
-(fset 'save-line-to-kill-ring
-   [?\C-a ?\S-\C-e ?\M-w])
-
-
 (fset 'wrap-css-property
 	  [?\{ return ?\C-e ?\C-b return ?\C-p ?\C-p ?  ?\C-b])
 
