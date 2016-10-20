@@ -47,8 +47,8 @@
 								  (eldoc-mode 1)))
 
 (defun my-kill-ring-save-dwim (beg end &optional region)
-  "If region is active, call kill-ring-save as usual. Otherwise, set region to
-the current line, then call kill-ring-save."
+  "If region is active, call copy-region-as-kill as usual. Otherwise, set region
+to the current line, then call copy-region-as-kill."
   (interactive (list (mark) (point)
 					 (prefix-numeric-value current-prefix-arg)))
   (save-excursion
