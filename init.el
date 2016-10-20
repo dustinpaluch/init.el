@@ -146,6 +146,13 @@ to the current line, then call copy-region-as-kill."
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
+;; buffer-move
+(global-set-key (kbd "<M-s-up>")     'buf-move-up)
+(global-set-key (kbd "<M-s-down>")   'buf-move-down)
+(global-set-key (kbd "<M-s-left>")   'buf-move-left)
+(global-set-key (kbd "<M-s-right>")  'buf-move-right)
+
+
 ;; swiper
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
