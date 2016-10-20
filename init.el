@@ -41,6 +41,8 @@
 
 (defalias 'ediff 'ediff-buffers)
 
+(column-number-mode 1)
+(recentf-mode 1)
 (add-hook 'emacs-lisp-mode-hook (lambda ()
 								  (eldoc-mode 1)))
 
