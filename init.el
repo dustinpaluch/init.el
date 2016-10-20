@@ -175,6 +175,10 @@ to the current line, then call copy-region-as-kill."
 ;; org mode
 (add-hook 'org-mode-hook (lambda ()
 						   (org-indent-mode 1)))
+;; ivy-occur
+(add-hook 'ivy-occur-mode-hook 'my-ivy-occur-mode-hook)
+(defun my-ivy-occur-mode-hook ()
+  (toggle-truncate-lines))
 
 ;; tramp
 (setq tramp-default-method "ssh")
