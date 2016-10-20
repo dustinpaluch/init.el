@@ -4,6 +4,7 @@
 (tool-bar-mode 0)
 (delete-selection-mode 1)
 (setq scroll-conservatively 10000)
+(global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 (global-set-key (kbd "C-h g") 'customize-group)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-h a") 'apropos)
