@@ -25,6 +25,20 @@
 (global-set-key (kbd "<f13>") 'rotate-frame-anticlockwise)
 (global-set-key (kbd "<f15>") 'rotate-frame-clockwise)
 (global-set-key (kbd "<f14>") 'flip-frame)
+;; overwrite line
+(global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
+
+(defun my-yank-replacing-line ()
+  (interactive)
+  (save-excursion
+	(move-beginning-of-line nil)
+	(set-mark-command nil)
+	(move-end-of-line nil)
+	(setq deactivate-mark nil)
+	(delete-region (mark) (point))
+	(yank)))
+
+
 (defalias 'ediff 'ediff-buffers)
 
 (add-hook 'emacs-lisp-mode-hook (lambda ()
