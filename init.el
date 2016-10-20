@@ -46,15 +46,6 @@
 (add-hook 'emacs-lisp-mode-hook (lambda ()
 								  (eldoc-mode 1)))
 
-(eval-after-load 'dired
-  '(define-key dired-mode-map (kbd "<home>") 'dired-up-directory))
-(eval-after-load 'dired
-  '(define-key dired-mode-map (kbd "<end>") 'dired-find-file))
-(eval-after-load 'dired
-  '(define-key dired-mode-map (kbd "<prior>") 'dired-previous-line))
-(eval-after-load 'dired
-  '(define-key dired-mode-map (kbd "<next>") 'dired-next-line))
-
 (defun my-kill-ring-save-dwim (beg end &optional region)
   "If region is active, call kill-ring-save as usual. Otherwise, set region to
 the current line, then call kill-ring-save."
