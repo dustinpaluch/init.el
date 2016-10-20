@@ -168,6 +168,10 @@ to the current line, then call copy-region-as-kill."
 (setq ivy-re-builders-alist
       '((t . ivy--regex-fuzzy)))
 
+(add-hook 'grep-mode-hook 'my-truncate-hook)
+(defun my-truncate-hook ()
+  (toggle-truncate-lines 1))
+
 ;; org mode
 (add-hook 'org-mode-hook (lambda ()
 						   (org-indent-mode 1)))
