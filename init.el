@@ -172,6 +172,12 @@ to the current line, then call copy-region-as-kill."
 (defun my-truncate-hook ()
   (toggle-truncate-lines 1))
 
+;; term-mode
+(add-hook 'term-mode-hook 'my-term-mode-hook)
+
+(defun my-term-mode-hook ()
+  (yas-minor-mode -1))
+
 ;; org mode
 (add-hook 'org-mode-hook (lambda ()
 						   (org-indent-mode 1)))
