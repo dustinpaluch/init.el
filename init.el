@@ -130,13 +130,11 @@ to the current line, then call copy-region-as-kill."
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
+(setq package-archive-priorities
+      '(("melpa-stable" . 20)
+        ("gnu" . 10)
+        ("melpa" . 0)))
 
-;; Check if we're on Emacs 24.4 or newer, if so, use the pinned package feature
-(when (boundp 'package-pinned-packages)
-  (setq package-pinned-packages
-		'((magit . "melpa-stable")
-		  (magit-popup . "melpa-stable")
-		  (company . "melpa-stable")))
 
 (package-initialize)
 
