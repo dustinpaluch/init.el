@@ -29,6 +29,8 @@
 ;; make it harder to accidentally delete a frame
 (global-set-key (kbd "s-w") nil)
 (global-set-key (kbd "s-W") 'delete-frame)
+;; disable OSX font dialog
+(global-set-key (kbd "s-t") nil)
 ;; overwrite line
 (global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
 
