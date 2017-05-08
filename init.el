@@ -417,6 +417,7 @@ to the current line, then call copy-region-as-kill."
  '(bm-recenter t)
  '(bm-repository-file "/Users/imacintel/.emacs.d/.bm-repository")
  '(column-number-mode t)
+ '(confirm-kill-emacs (quote y-or-n-p))
  '(custom-enabled-themes (quote (spolsky)))
  '(custom-safe-themes
    (quote
