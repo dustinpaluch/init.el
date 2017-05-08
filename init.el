@@ -246,6 +246,8 @@ to the current line, then call copy-region-as-kill."
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 ;(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(setq web-mode-engines-alist
+	 '(("php"    . "\\.php.inactive\\'")))
 
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
