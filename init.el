@@ -66,6 +66,7 @@
 	(yank)))
 
 
+(require 'ediff)
 (defalias 'ediff 'ediff-buffers)
 
 (column-number-mode 1)
