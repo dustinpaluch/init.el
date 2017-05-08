@@ -40,6 +40,21 @@
 ;; overwrite line
 (global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
 
+(global-set-key (kbd "M-D") 'my-kill-word-at-point)
+(defun my-kill-word-at-point ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'word)))
+	(unless (equal bounds nil)
+	  (delete-region (car bounds) (cdr bounds)))))
+
+(global-set-key (kbd "C-M-S-k") 'my-kill-symbol-at-point)
+(defun my-kill-symbol-at-point ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+	(unless (equal bounds nil)
+	  (delete-region (car bounds) (cdr bounds)))))
+
+
 (defun my-yank-replacing-line ()
   (interactive)
   (save-excursion
