@@ -487,3 +487,4 @@ to the current line, then call copy-region-as-kill."
  '(web-mode-comment-keyword-face ((t (:foreground "Pink" :slant italic :weight bold)))))
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
