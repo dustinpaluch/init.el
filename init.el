@@ -416,6 +416,7 @@ to the current line, then call copy-region-as-kill."
  '(bm-highlight-style (quote bm-highlight-only-fringe))
  '(bm-recenter t)
  '(bm-repository-file "/Users/imacintel/.emacs.d/.bm-repository")
+ '(column-number-mode t)
  '(custom-enabled-themes (quote (spolsky)))
  '(custom-safe-themes
    (quote
