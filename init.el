@@ -25,6 +25,10 @@
 (global-set-key (kbd "<f13>") 'rotate-frame-anticlockwise)
 (global-set-key (kbd "<f15>") 'rotate-frame-clockwise)
 (global-set-key (kbd "<f14>") 'flip-frame)
+
+;; make it harder to accidentally delete a frame
+(global-set-key (kbd "s-w") nil)
+(global-set-key (kbd "s-W") 'delete-frame)
 ;; overwrite line
 (global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
 
