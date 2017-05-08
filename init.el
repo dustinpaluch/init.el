@@ -31,6 +31,12 @@
 (global-set-key (kbd "s-W") 'delete-frame)
 ;; disable OSX font dialog
 (global-set-key (kbd "s-t") nil)
+
+;; Who needs minimize on a hotkey?
+(global-unset-key (kbd "s-m"))
+(global-unset-key (kbd "C-x C-z"))
+(global-unset-key (kbd "C-z"))
+
 ;; overwrite line
 (global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
 
