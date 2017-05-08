@@ -441,6 +441,32 @@ to the current line, then call copy-region-as-kill."
  '(hl-paren-colors
    (quote
 	("red" "orange" "yellow" "green" "cyan3" "DodgerBlue3" "SlateBlue3" "HotPink3")))
+ '(ibuffer-saved-filter-groups
+   (quote
+	(("Projects"
+	  ("beacon"
+	   (filename . "Projects/Beacon"))
+	  ("crs"
+	   (filename . "Projects/crs"))))))
+ '(ibuffer-saved-filters
+   (quote
+	(("FTP"
+	  ((filename . "ftp")))
+	 ("gnus"
+	  ((or
+		(mode . message-mode)
+		(mode . mail-mode)
+		(mode . gnus-group-mode)
+		(mode . gnus-summary-mode)
+		(mode . gnus-article-mode))))
+	 ("programming"
+	  ((or
+		(mode . emacs-lisp-mode)
+		(mode . cperl-mode)
+		(mode . c-mode)
+		(mode . java-mode)
+		(mode . idl-mode)
+		(mode . lisp-mode)))))))
  '(initial-scratch-message ";; Scratch
 ")
  '(ivy-mode t)
