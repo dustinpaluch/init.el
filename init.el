@@ -437,6 +437,9 @@ to the current line, then call copy-region-as-kill."
  '(global-company-mode t)
  '(global-visual-line-mode nil)
  '(help-window-select t)
+ '(hl-paren-colors
+   (quote
+	("red" "orange" "yellow" "green" "cyan3" "DodgerBlue3" "SlateBlue3" "HotPink3")))
  '(initial-scratch-message ";; Scratch
 ")
  '(ivy-mode t)
