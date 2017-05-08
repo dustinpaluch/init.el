@@ -280,9 +280,6 @@ to the current line, then call copy-region-as-kill."
 (add-hook 'scss-mode-hook 'my-disable-truncation)
 (add-hook 'buffer-menu-mode-hook 'my-disable-truncation)
 
-;; avy
-(global-set-key (kbd "C-c ;") 'avy-goto-char)
-
 ;; ag
 (global-set-key (kbd "C-c s") 'ag)
 
