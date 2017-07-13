@@ -195,6 +195,7 @@ to the current line, then call copy-region-as-kill."
 (global-set-key (kbd "C-c g") 'counsel-git)
 (global-set-key (kbd "C-c j") 'counsel-git-grep)
 (global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x B") 'ivy-switch-buffer-other-window)
 (setq ivy-re-builders-alist
       '((t . ivy--regex-fuzzy)))
 
