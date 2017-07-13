@@ -26,6 +26,8 @@
 (global-set-key (kbd "<f15>") 'rotate-frame-clockwise)
 (global-set-key (kbd "<f14>") 'flip-frame)
 
+(global-set-key (kbd "s-p") nil)
+
 ;; make it harder to accidentally delete a frame
 (global-set-key (kbd "s-w") nil)
 (global-set-key (kbd "s-W") 'delete-frame)
