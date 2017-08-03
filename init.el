@@ -1,81 +1,443 @@
-;;;; VANILLA TWEAKS
+;;;; PACKAGE SETUP
 
+(package-initialize)
+(require 'use-package)
+
+;; MANUALLY INSTALLED PACKAGES
+
+(let ((default-directory "~/.emacs.d/lisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;;;; LOAD THEME
+
+(require 'spolsky-theme)
+(require 'smart-mode-line)
+(add-to-list
+ 'custom-safe-themes
+ "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11")
+(add-to-list
+ 'custom-safe-themes
+ "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa")
+(load-theme 'spolsky)
+(smart-mode-line-enable)
+
+
+;;;; SET DEFAULTS
+(setq cursor-type 'bar)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(setq fill-column 80)
+(setq frame-resize-pixelwise t)
+(setq global-visual-line-mode nil)
+(setq help-window-select t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (delete-selection-mode 1)
-(setq scroll-conservatively 10000)
 (global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
-(global-set-key (kbd "C-h g") 'customize-group)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-h a") 'apropos)
-(global-set-key (kbd "C-c x") 'er/expand-region)
-(global-set-key (kbd "<S-s-left>") nil) ; redundant?
-(global-set-key (kbd "<S-s-right>") nil) ; redundant?
-(global-set-key (kbd "<s-left>") 'move-beginning-of-line)
-(global-set-key (kbd "<s-right>") 'move-end-of-line)
-(global-set-key (kbd "<s-up>") 'beginning-of-buffer)
-(global-set-key (kbd "<s-down>") 'end-of-buffer)
-(global-set-key (kbd "<C-s-up>") 'windmove-up)
-(global-set-key (kbd "<C-s-down>") 'windmove-down)
-(global-set-key (kbd "<C-s-left>") 'windmove-left)
-(global-set-key (kbd "<C-s-right>") 'windmove-right)
-(global-set-key (kbd "s-0") 'delete-window)
-(global-set-key (kbd "s-1") 'delete-other-windows)
-(global-set-key (kbd "s-@") 'my-clone-dwim)
-(global-set-key (kbd "<f13>") 'rotate-frame-anticlockwise)
-(global-set-key (kbd "<f15>") 'rotate-frame-clockwise)
-(global-set-key (kbd "<f14>") 'flip-frame)
+(setq global-auto-revert-mode t)
+(setq scroll-conservatively 10000)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq-default indent-tabs-mode t)
+;; backups
+(setq backup-by-copying t ; don't clobber symlinks
+	  backup-directory-alist '(("." . "~/.emacs.d/backups")) ; don't litter my fs tree
+	  delete-old-versions t
+	  kept-new-versions 6
+	  kept-old-versions 2
+	  version-control t)
+;; disable backups for files opened with su or sudo
+(setq backup-enable-predicate
+      (lambda (name)
+        (and (normal-backup-enable-predicate name)
+             (not
+              (let ((method (file-remote-p name 'method)))
+                (when (stringp method)
+                  (member method '("su" "sudo")))))))) ; use versioned backups
+;;indent after paste
+(dolist (command '(yank yank-pop))
+  (eval
+   `(defadvice ,command (after indent-region activate)
+	  (and (not current-prefix-arg)
+		   (member
+			major-mode
+			'(emacs-lisp-mode lisp-mode clojure-mode scheme-mode haskell-mode
+							  ruby-mode rspec-mode python-modec-mode c++-mode
+							  objc-mode latex-mode plain-tex-mode scss-mode
+							  css-mode))
+		   (let ((mark-even-if-inactive transient-mark-mode))
+			 (indent-region (region-beginning) (region-end) nil))))))
 
-(global-set-key (kbd "s-p") nil)
+;;;; REMOVE DEFAULT BINDINGS
 
-;; make it harder to accidentally delete a frame
-(global-set-key (kbd "s-w") nil)
+(global-unset-key (kbd "s-p"))			; print
+(global-unset-key (kbd "s-t"))			; macOS font dialog box
+(global-unset-key (kbd "s-m"))			; minimize
+(global-unset-key (kbd "C-x C-z"))		; suspend frame
+(global-unset-key (kbd "C-z"))			; suspend frame
+
+;;;; REMOVE AND REBIND DEFAULT BINDINGS
+
+(global-unset-key (kbd "s-w"))			; close frame
 (global-set-key (kbd "s-W") 'delete-frame)
-;; disable OSX font dialog
-(global-set-key (kbd "s-t") nil)
 
-;; Who needs minimize on a hotkey?
-(global-unset-key (kbd "s-m"))
-(global-unset-key (kbd "C-x C-z"))
-(global-unset-key (kbd "C-z"))
+;;;; PACKAGE CONFIGURATION
 
-;; overwrite line
-(global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
+(use-package ag
+  :bind (("C-c s" . ag))
+  :config
+  (setq ag-ignore-list '("*.min.*"))
+  (setq ag-reuse-window nil)) ; ag
 
-(global-set-key (kbd "M-D") 'my-kill-word-at-point)
-(defun my-kill-word-at-point ()
-  (interactive)
-  (let ((bounds (bounds-of-thing-at-point 'word)))
-	(unless (equal bounds nil)
-	  (delete-region (car bounds) (cdr bounds)))))
+(use-package ange-ftp
+  :config
+  (setq ange-ftp-netrc-filename "~/.authinfo.gpg"))
 
-(global-set-key (kbd "C-M-S-k") 'my-kill-symbol-at-point)
-(defun my-kill-symbol-at-point ()
-  (interactive)
-  (let ((bounds (bounds-of-thing-at-point 'symbol)))
-	(unless (equal bounds nil)
-	  (delete-region (car bounds) (cdr bounds)))))
+(use-package apropos
+  :bind (("C-h a" . apropos))) ; apropos
+
+(use-package auth-source
+  :config
+  (setq auth-source-debug 'trivia)
+  (setq auth-sources '("~/.authinfo.gpg")))
+
+(use-package buffer-move
+  :bind (("<M-s-up>" . buf-move-up)
+		 ("<M-s-down>" . buf-move-down)
+		 ("<M-s-left>" . buf-move-left)
+		 ("<M-s-right>" . buf-move-right))) ; buffer-mode
+
+(use-package company
+  :init
+  (global-company-mode 1)
+  (company-statistics-mode 1)
+  :config
+  (setq company-auto-complete-chars '(32 95 41 46))
+  (setq company-dabbrev-code-modes
+		'(prog-mode batch-file-mode csharp-mode css-mode erlang-mode
+					haskell-mode jde-mode lua-mode python-mode web-mode
+					scss-mode))
+  (setq company-idle-delay 0.2)) ; company
+
+(use-package counsel
+  :bind (("M-y" . counsel-yank-pop)
+		 ("M-x" . counsel-M-x)
+		 ("C-c g" . counsel-git)
+		 ("C-c j" . counsel-git-grep)
+		 ("C-c k" . counsel-ag))) ; counsel
+
+(use-package cus-edit
+  :bind (("C-h g" . customize-group))) ; cus-edit
+
+(use-package delete-window
+  :bind (("s-0" . delete-window)
+		 ("s-1" . delete-other-windows))) ; delete-window
+
+(use-package dired
+  :config
+  (setq dired-dwim-target t)
+  (define-key dired-mode-map [mouse-2] 'dired-find-file)
+  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
+  (define-key dired-mode-map (kbd "SPC") 'osx-quick-look)
+  (define-key dired-mode-map (kbd "<s-return>") 'osx-open)) ; dired
+
+(use-package dired-aux
+  :config
+  (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip"))) ; dired-aux
+
+(use-package dired-x
+  :bind (("C-x C-j" . dired-jump))) ; dired-x
+
+(use-package ediff
+  :config
+  (defalias 'ediff 'ediff-buffers)) ; ediff
+
+(use-package elisp-mode
+  :config
+  (defun my-emacs-lisp-mode-hook ()
+	(eldoc-mode 1)
+	(paredit-mode 1))
+  (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)) ; elisp-mode
+
+(use-package erc
+  :commands erc
+  :config
+  (setq erc-fill-column 170)
+  (setq erc-max-buffer-size 300000)
+  (setq erc-input-line-position -1)
+  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+  (setq erc-prompt-for-password nil)
+  (setq erc-nick "paluche")
+  ;; ERC BUFFER LOCAL FILL COLUMN
+  ;; (make-variable-buffer-local 'erc-fill-column)
+  ;; (add-hook 'window-configuration-change-hook 
+  ;; 		 '(lambda ()
+  ;; 			(save-excursion
+  ;; 			  (walk-windows
+  ;; 			   (lambda (w)
+  ;; 				 (let ((buffer (window-buffer w)))
+  ;; 				   (set-buffer buffer)
+  ;; 				   (when (eq major-mode 'erc-mode)
+  ;; 					 (setq erc-fill-column (- (window-width w) 2)))))))))
+
+  ;; ;; MOVE ERC TIMESTAMP
+  ;; (setq erc-timestamp-only-if-changed-flag nil
+  ;; 	 erc-timestamp-format "%s "
+  ;; 	 erc-fill-prefix "      "
+  ;; 	 erc-insert-timestamp-function 'erc-insert-timestamp-left)
+  (defun my-erc-mode-hook ()
+	(company-mode -1)
+	(electric-pair-local-mode -1))
+  (add-hook 'erc-mode-hook 'my-erc-mode-hook)) ; erc
+
+(use-package exec-path-from-shell
+  :init
+  ;; match path with shell
+  (when (memq window-system '(mac ns))
+	(exec-path-from-shell-initialize))) ; exec-path-from-shell
+
+(use-package expand-region
+  :bind (("C-c x" . er/expand-region))) ; expand-region
+
+(use-package geben
+  :commands geben
+  :config
+  (defun my-vagrant-geben-path-prefix (path)
+	(let ((ip (geben-session-ip-get session)))
+	  (format "/ssh:vagrant@%s:" ip)))
+  (fset 'geben-get-tramp-spec-for (symbol-function 'my-vagrant-geben-path-prefix))) ; geben
+
+(use-package grep
+  :config
+  (setq wgrep-enable-key "r")
+  (add-hook 'grep-mode-hook 'my-truncate-hook)
+  (defun my-truncate-hook () (toggle-truncate-lines 1))) ; grep
+
+(use-package hydra
+  :init
+  (require 'lorem-ipsum)
+  (defhydra hydra-insert-lipsum (global-map "C-c l")
+	"Insert lorem ipsum"
+	("s" lorem-ipsum-insert-sentences "sentence")
+	("l" lorem-ipsum-insert-list "list")
+	("p" lorem-ipsum-insert-paragraphs "paragraph")
+	("RET" newline "newline")
+	("q" nil "quit"))) ; hydra
+
+(use-package ibuffer
+  :bind (("C-x C-b" . ibuffer))) ; ibuffer
+
+(use-package ivy
+  :init
+  (ivy-mode 1)
+  :config
+  (setq ivy-use-virtual-buffers 1)
+  (setq ivy-wrap t)
+  ;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+  (add-hook 'ivy-occur-mode-hook 'my-ivy-occur-mode-hook)
+  (defun my-ivy-occur-mode-hook () (toggle-truncate-lines))
+  :bind (("C-x b" . ivy-switch-buffer)
+		 ("C-c C-r" . ivy-resume)
+		 ("C-x B" . ivy-switch-buffer-other-window))) ; ivy
+
+(use-package magit
+  :bind (("C-x g" . magit-status))
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read)) ; magit 
 
 
-(defun my-yank-replacing-line ()
-  (interactive)
-  (save-excursion
-	(move-beginning-of-line nil)
-	(set-mark-command nil)
-	(move-end-of-line nil)
-	(setq deactivate-mark nil)
-	(delete-region (mark) (point))
-	(yank)))
+(use-package multiple-cursors
+  :bind (("C-<" . mc/mark-previous-like-this)
+		 ("C->" . mc/mark-next-like-this)
+		 ("C-c C-<" . mc/mark-all-like-this)
+		 ([s-mouse-1] . mc/add-cursor-on-click))) ; multiple-cursors
+
+(use-package org
+  :config
+  (setq org-support-shift-select t)
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+  (add-hook 'org-mode-hook 'my-org-mode-hook)
+  (defun my-org-mode-hook ()
+	(org-indent-mode 1)
+	(local-set-key (kbd "s-p") 'org-pomodoro))) ; org
+
+(use-package org-pomodoro
+  :commands org-pomodoro
+  :config
+  (setq org-pomodoro-finished-sound-p nil)
+  (setq org-pomodoro-long-break-length 6)
+  (setq org-pomodoro-long-break-sound-p nil)
+  (setq org-pomodoro-play-sounds nil)
+  (add-hook 'org-pomodoro-finished-hook 'my-org-pomodoro-finished-hook)
+  (defun my-org-pomodoro-finished-hook ()
+	(beep)
+	(call-process-shell-command
+	 "terminal-notifier -message \"\" -title \"Time's up\!\"" nil 0))) ; org-pomodoro
+
+(use-package package
+  :config
+  (add-to-list
+   'package-archives
+   '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list
+   'package-archives
+   '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+  (setq package-archive-priorities
+		'(("melpa-stable" . 20)
+		  ("gnu" . 10)
+		  ("melpa" . 0)))) ; package
+
+(use-package paradox
+  :config
+  (setq paradox-github-token t))
+
+(use-package prog-mode
+  :config
+  (defun my-prog-mode-hook ()
+	(electric-indent-mode 1)
+	(highlight-parentheses-mode 1)
+	(show-paren-mode)
+	(ruler-mode))
+  (add-hook 'prog-mode-hook 'my-prog-mode-hook)) ; prog-mode
+
+(use-package projectile
+  :init
+  (projectile-global-mode 1)
+  :config
+  (define-key projectile-mode-map
+	(kbd "C-c p D") 'projectile-find-dir-other-window)) ; projectile
+
+(use-package recentf
+  :init
+  (recentf-mode 1)
+  :config
+  (setq recentf-max-menu-items 20)) ; recentf
+
+(use-package savehist
+  :init (savehist-mode 1)) ; savehist
+
+(use-package shackle
+  :init
+  (shackle-mode 1)
+  :config
+  (setq shackle-rules '((magit-revision-mode :same t))))
+
+(use-package simple
+  :init
+  (column-number-mode 1)
+  :bind (("<s-left>" . move-beginning-of-line)
+		 ("<s-right>" . move-end-of-line)
+		 ("<s-up>" . beginning-of-buffer)
+		 ("<s-down>" . end-of-buffer))) ; simple
+
+(use-package swiper
+  :bind (("C-s" . swiper)
+		 ("C-r" . swiper)
+		 ("C-S-s" . swiper-all))) ; swiper
+
+(use-package tramp
+  :config
+  (setq tramp-default-method "ssh")
+  ;; ignore backup-directory-alist for TRAMP files
+  (add-to-list 'backup-directory-alist
+			   (cons tramp-file-name-regexp nil))) ; tramp
+
+(use-package term
+  :config
+  (add-hook 'term-mode-hook 'my-term-mode-hook)
+  (defun my-term-mode-hook () (yas-minor-mode -1))) ; term
+
+(use-package transpose-frame
+  :bind (("<f13>" . rotate-frame-anticlockwise)
+		 ("<f15>" . rotate-frame-clockwise)
+		 ("<f14>" . flip-frame))) ; transpose-frame
+
+;; disable bell for some events
+(setq ring-bell-function 'my-bell-function)
+
+;; dunno where this hook gets defined
+;;(defun my-git-rebase-mode-hook ()
+;;  (shackle-mode -1))
+;;(add-hook 'git-rebase-mode-hook 'my-git-rebase-mode-hook)
+
+(use-package web-mode
+  :mode ("\\.phtml\\'"
+		 "\\.php\\'"
+		 "\\.js\\'"
+		 "\\.php.inactive\\'")
+  :config
+  (setq web-mode-engines-alist '(("php" . "\\.php.inactive\\'")))
+  (setq web-mode-markup-indent-offset 4)
+  (setq web-mode-css-indent-offset 4)
+  (setq web-mode-code-indent-offset 4)
+  (setq web-mode-indent-style 4)
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-content-types-alist '(("jsx"  . ".*\\.js[x]?\\'")))
+  (defun my-mark-inside-single-quotes ()
+	"Mark the inside of the current single-quoted string, not
+including the quotation marks."
+	(interactive)
+	(let ((cursor (point)))
+	  (when (search-backward "'" (line-beginning-position) t)
+		(forward-char)
+		(set-mark (point))
+		(when (search-forward "'" (line-end-position) t)
+		  (backward-char)
+		  (exchange-point-and-mark)))))
+  (defun my-mark-outside-single-quotes ()
+	"Mark the current single-quoted string, including the quotation
+marks."
+	(interactive)
+	(let ((cursor (point)))
+	  (when (search-backward "'" (line-beginning-position) t)
+		(set-mark (point))
+		(forward-char)
+		(when (search-forward "'" (line-end-position) t)
+		  (exchange-point-and-mark)))))
+  (defun my-add-web-mode-expansions ()
+	(make-variable-buffer-local 'er/try-expand-list)
+	(setq er/try-expand-list (append
+							  er/try-expand-list
+							  '(my-mark-inside-single-quotes
+								my-mark-outside-single-quotes))))
+  (defun my-yas-after-exit-snippet-hook ()
+	(web-mode-buffer-highlight))
+  (defun my-web-mode-hook ()
+	(emmet-mode 1)
+	(git-gutter+-mode 1)
+	(setq require-final-newline nil)
+	(my-add-web-mode-expansions)
+	(add-hook 'yas-after-exit-snippet-hook
+			  'my-yas-after-exit-snippet-hook))
+  (add-hook 'web-mode-hook  'my-web-mode-hook)) ; web-mode
+
+(use-package which-key
+  :init (which-key-mode 1)
+  :config
+  (setq which-key-idle-delay 3.0)) ; which-key
+
+(use-package windmove
+  :bind (("<C-s-up>" . windmove-up)
+		 ("<C-s-down>" . windmove-down)
+		 ("<C-s-left>" . windmove-left)
+		 ("<C-s-right>" . windmove-right))) ; windmove
+
+(use-package winner
+  :init
+  (winner-mode 1))
+
+(use-package yaml-mode
+  :mode "\\.yml\\'") ; yaml-mode
+
+(use-package zop-to-char
+  :bind (("M-z" . zop-to-char)
+		 ("C-c C-c M-z" . zap-to-char))) ; zop-to-char
+
+;;;; DEFINE AND BIND CUSTOM FUNCTIONS
 
 
-(require 'ediff)
-(defalias 'ediff 'ediff-buffers)
-
-(column-number-mode 1)
-(recentf-mode 1)
-(add-hook 'emacs-lisp-mode-hook (lambda ()
-								  (eldoc-mode 1)))
-
+(global-set-key (kbd "M-w") 'my-kill-ring-save-dwim)
 (defun my-kill-ring-save-dwim (beg end &optional region)
   "If region is active, call copy-region-as-kill as usual. Otherwise, set region
 to the current line, then call copy-region-as-kill."
@@ -89,8 +451,6 @@ to the current line, then call copy-region-as-kill."
 	  (move-end-of-line nil)
 	  (setq deactivate-mark nil)
 	  (copy-region-as-kill beg end region))))
-
-(global-set-key (kbd "M-w") 'my-kill-ring-save-dwim)
 
 (defun my-clone-dwim ()
   "Duplicate the line at point."
@@ -107,302 +467,38 @@ to the current line, then call copy-region-as-kill."
 	  (yank)
 	  (backward-char))))
 
-;; disable bell for some events
 (defun my-bell-function ()
   (unless (memq this-command
 				'(isearch-abort abort-recursive-edit exit-minibuffer
 								keyboard-quit mwheel-scroll down up next-line
 								previous-line backward-char forward-char))
 	(ding)))
-(setq ring-bell-function 'my-bell-function)
 
-;; emacs backups
-(setq
- backup-by-copying t ; don't clobber symlinks
- backup-directory-alist
- '(("." . "~/.emacs.d/file backups")) ; don't litter my fs tree
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t) ; use versioned backups
+(defun my-kill-word-at-point ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'word)))
+	(unless (equal bounds nil)
+	  (delete-region (car bounds) (cdr bounds)))))
+(global-set-key (kbd "C-M-S-k") 'my-kill-symbol-at-point)
 
-;; disable backups for files opened with su or sudo
-(setq backup-enable-predicate
-      (lambda (name)
-        (and (normal-backup-enable-predicate name)
-             (not
-              (let ((method (file-remote-p name 'method)))
-                (when (stringp method)
-                  (member method '("su" "sudo"))))))))
+(defun my-kill-symbol-at-point ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+	(unless (equal bounds nil)
+	  (delete-region (car bounds) (cdr bounds)))))
+(defun my-yank-replacing-line ()
+  (interactive)
+  (save-excursion
+	(move-beginning-of-line nil)
+	(set-mark-command nil)
+	(move-end-of-line nil)
+	(setq deactivate-mark nil)
+	(delete-region (mark) (point))
+	(yank)))
 
-
-
-;; ignore backup-directory-alist for TRAMP files
-(add-to-list 'backup-directory-alist
-             (cons tramp-file-name-regexp nil))
-
-;; indentation
-(setq-default indent-tabs-mode t)
-
-;; scrolling
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-
-;; visual lines
-(global-visual-line-mode 1)
-
-;;;; PACKAGE CONFIG
-
-;; manually installed packages
-(let ((default-directory "~/.emacs.d/lisp/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
-(require 'package) ;; You might already have this line
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-
-(setq package-archive-priorities
-      '(("melpa-stable" . 20)
-        ("gnu" . 10)
-        ("melpa" . 0)))
-
-
-(package-initialize)
-
-(global-set-key (kbd "M-y") 'counsel-yank-pop)
-
-;; match path with shell
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
-
-;; buffer-move
-(global-set-key (kbd "<M-s-up>")     'buf-move-up)
-(global-set-key (kbd "<M-s-down>")   'buf-move-down)
-(global-set-key (kbd "<M-s-left>")   'buf-move-left)
-(global-set-key (kbd "<M-s-right>")  'buf-move-right)
-
-
-;; swiper
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-S-s") 'swiper-all)
-(global-set-key "\C-r" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key [f6] 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x B") 'ivy-switch-buffer-other-window)
-(setq ivy-re-builders-alist
-      '((t . ivy--regex-fuzzy)))
-
-(add-hook 'grep-mode-hook 'my-truncate-hook)
-(defun my-truncate-hook ()
-  (toggle-truncate-lines 1))
-
-;; term-mode
-(add-hook 'term-mode-hook 'my-term-mode-hook)
-
-(defun my-term-mode-hook ()
-  (yas-minor-mode -1))
-
-;; org mode
-(add-hook 'org-mode-hook (lambda ()
-						   (org-indent-mode 1)))
-;; ivy-occur
-(add-hook 'ivy-occur-mode-hook 'my-ivy-occur-mode-hook)
-(defun my-ivy-occur-mode-hook ()
-  (toggle-truncate-lines))
-
-;; tramp
-(setq tramp-default-method "ssh")
-
-;; dired-x
-(require 'dired-x)
-(define-key dired-mode-map [mouse-2] 'dired-find-file)
-
-;; zop-to-char
-(global-set-key [remap zap-to-char] 'zop-to-char)
-(global-set-key (kbd "C-c C-c M-z") 'zap-to-char) ; old zap-to-char
-
-;; magit
-(global-set-key (kbd "C-x g") 'magit-status)
-(setq magit-completing-read-function 'ivy-completing-read)
-
-;; change wgrep key
-(setq wgrep-enable-key "r")
-
-;; wdired hotkey
-; I should do this in dired-mode-map...
-(add-hook 'dired-mode-hook
-		  (lambda ()
-			(local-set-key
-			 (kbd "r")
-			 'wdired-change-to-wdired-mode)))
-
-;; web mode
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-;(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-(setq web-mode-engines-alist
-	 '(("php"    . "\\.php.inactive\\'")))
-
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 4)
-  (setq web-mode-css-indent-offset 4)
-  (setq web-mode-code-indent-offset 4)
-  (setq web-mode-indent-style 4)
-  (emmet-mode 1)
-  (git-gutter+-mode 1))
-
-(add-hook 'web-mode-hook  'my-web-mode-hook)
-
-(setq web-mode-enable-current-element-highlight t)
-
-;; SCSS mode
-(add-hook 'scss-mode-hook (lambda()
-			    (rainbow-mode 1)
-			    (rainbow-delimiters-mode 1)
-			    (git-gutter+-mode 1)))
-
-(defun my-disable-truncation ()
-  "Locally enable line truncation"
-  (visual-line-mode 0)
-  (setq truncate-lines t))
-
-(add-hook 'occur-mode-hook 'my-disable-truncation)
-(add-hook 'dired-mode-hook 'my-disable-truncation)
-(add-hook 'paradox-menu-mode-hook 'my-disable-truncation)
-(add-hook 'ag-mode-hook 'my-disable-truncation)
-(add-hook 'scss-mode-hook 'my-disable-truncation)
-(add-hook 'buffer-menu-mode-hook 'my-disable-truncation)
-
-;; ag
-(global-set-key (kbd "C-c s") 'ag)
-
-;; company-mode
-(global-company-mode 1)
-(company-statistics-mode 1)
-(setq company-idle-delay 0)
-
-;; prog-mode
-(add-hook 'prog-mode-hook  (lambda ()
-							 (electric-indent-mode 1)
-							 (electric-pair-mode 1)))
-
-;;multiple-cursors
-(require 'multiple-cursors)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-(global-set-key [s-mouse-1] 'mc/add-cursor-on-click)
-
-;; ERC BUFFER LOCAL FILL COLUMN
-(make-variable-buffer-local 'erc-fill-column)
-(add-hook 'window-configuration-change-hook 
-		  '(lambda ()
-			 (save-excursion
-			   (walk-windows
-				(lambda (w)
-				  (let ((buffer (window-buffer w)))
-					(set-buffer buffer)
-					(when (eq major-mode 'erc-mode)
-					  (setq erc-fill-column (- (window-width w) 2)))))))))
-
-;; MOVE ERC TIMESTAMP
-(setq erc-timestamp-only-if-changed-flag nil
-      erc-timestamp-format "%s "
-      erc-fill-prefix "      "
-      erc-insert-timestamp-function 'erc-insert-timestamp-left)
-
-;; ERC SCROLL TO BOTTOM
-(setq erc-input-line-position -1)
-
-;; turn off company mode in ERC
-(add-hook 'erc-mode-hook (lambda ()
-						   (company-mode 0)
-						   (electric-pair-mode 0)))
-
-(defhydra hydra-insert-lipsum (global-map "C-c l")
-    "Insert lorem ipsum"
-    ("s" lorem-ipsum-insert-sentences "sentence")
-    ("l" lorem-ipsum-insert-list "list")
-    ("p" lorem-ipsum-insert-paragraphs "paragraph")
-	("RET" newline "newline")
-	("q" nil "quit"))
-
-;; macros
-
-(fset 'wrap-css-property
-	  [?\{ return ?\C-e ?\C-b return ?\C-p ?\C-p ?  ?\C-b])
-
-(fset 'osx-open
-	  [?w ?\M-! ?o ?p ?e ?n ?  ?\s-v return])
-
-(global-set-key (kbd "<s-return>") 'osx-open)
-
-(fset 'osx-quick-look
-	  [?w ?\M-! ?q ?l ?m ?a ?n ?a ?g ?e ?  ?- ?p ?  ?. ?/ ?\C-y ?  ?> ?/ ?d ?e ?v ?/ ?n ?u ?l ?l ?  ?2 ?> ?& ?1 return])
-
-(fset 'kill-nested-css-selector
-	  [?\C-a ?\M-\\ backspace ?\C-b ?\M-x ?d ?e ?l ?e ?t ?e ?- ?p ?a ?i ?r return])
-
-
-(add-hook 'dired-mode-hook
-		  (lambda ()
-			(local-set-key
-			 (kbd "SPC")
-			 'osx-quick-look)))
-
-;; circe
-(setq circe-network-options
-      '(("Freenode"
-         :tls t
-         :nick "paluche"
-         :sasl-username "paluche"
-         :sasl-password ""
-         :channels ("#emacs-circe")
-         )))
-
-(setq circe-reduce-lurker-spam t)
-(setq circe-format-server-topic "*** Topic change by {userhost}: {topic-diff}")
-(setq
- lui-time-stamp-position 'right-margin
- lui-fill-type nil)
-
-(add-hook 'lui-mode-hook 'my-lui-setup)
-(defun my-lui-setup ()
-  (setq
-   fringes-outside-margins t
-   right-margin-width 5
-   word-wrap t
-   wrap-prefix "    "))
-
-;; indent after paste
-(dolist (command '(yank yank-pop))
-   (eval `(defadvice ,command (after indent-region activate)
-            (and (not current-prefix-arg)
-                 (member major-mode '(emacs-lisp-mode lisp-mode
-                                                      clojure-mode    scheme-mode
-                                                      haskell-mode    ruby-mode
-                                                      rspec-mode      python-mode
-                                                      c-mode          c++-mode
-                                                      objc-mode       latex-mode
-                                                      plain-tex-mode  scss-mode
-													  css-mode        web-mode))
-                 (let ((mark-even-if-inactive transient-mark-mode))
-                   (indent-region (region-beginning) (region-end) nil))))))
-
-;; make it harder to accidentally delete a frame
-(global-set-key (kbd "s-w") nil)
-(global-set-key (kbd "s-W") 'delete-frame)
-
+(global-set-key (kbd "s-@") 'my-clone-dwim)
+(global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
+(global-set-key (kbd "M-D") 'my-kill-word-at-point)
 
 ;;;; VIA CUSTOMIZE GUI
 
@@ -411,36 +507,19 @@ to the current line, then call copy-region-as-kill."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ag-ignore-list (quote ("*.min.*")))
- '(ag-reuse-window nil)
- '(bm-annotate-on-create t)
- '(bm-buffer-persistence t)
- '(bm-cycle-all-buffers t)
- '(bm-highlight-style (quote bm-highlight-only-fringe))
- '(bm-recenter t)
- '(bm-repository-file "/Users/imacintel/.emacs.d/.bm-repository")
- '(column-number-mode t)
+ '(adaptive-fill-mode nil)
+ '(column-number-mode nil)
  '(confirm-kill-emacs (quote y-or-n-p))
- '(custom-enabled-themes (quote (spolsky)))
  '(custom-safe-themes
    (quote
-	("0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default)))
- '(delete-selection-mode t)
- '(dired-dwim-target t)
+	("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" default)))
  '(emmet-move-cursor-between-quotes t)
  '(emmet-preview-default nil)
- '(erc-fill-function (quote erc-fill-static))
- '(erc-fill-static-center 18)
- '(erc-fools (quote ("salih666")))
- '(erc-hide-list (quote ("JOIN" "QUIT")))
- '(erc-lurker-hide-list (quote ("JOIN" "PART" "QUIT")))
- '(erc-nick "paluche")
- '(erc-scrolltobottom-mode t)
- '(frame-resize-pixelwise t)
- '(global-auto-revert-mode t)
- '(global-company-mode t)
- '(global-visual-line-mode nil)
- '(help-window-select t)
+ '(erc-modules
+   (quote
+	(autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands readonly ring stamp track truncate)))
+ '(erc-server-auto-reconnect nil)
+ '(explicit-shell-file-name "/usr/local/bin/bash")
  '(hl-paren-colors
    (quote
 	("red" "orange" "yellow" "green" "cyan3" "DodgerBlue3" "SlateBlue3" "HotPink3")))
@@ -472,26 +551,17 @@ to the current line, then call copy-region-as-kill."
 		(mode . lisp-mode)))))))
  '(initial-scratch-message ";; Scratch
 ")
- '(ivy-mode t)
- '(ivy-wrap t)
- '(menu-bar-mode nil)
- '(paradox-github-token t)
  '(projectile-completion-system (quote ivy))
- '(projectile-global-mode t)
  '(rainbow-html-colors-major-mode-list
    (quote
 	(html-mode css-mode scss-mode php-mode nxml-mode xml-mode)))
  '(safe-local-variable-values
    (quote
-	((projectile-project-name . "beacon")
 	 (projectile-project-name . "crs"))))
  '(scss-sass-options (quote ("-E 'UTF-8'")))
- '(show-trailing-whitespace t)
  '(tab-width 4)
  '(tags-revert-without-query t)
- '(tool-bar-mode nil)
- '(web-mode-enable-current-column-highlight nil)
- '(winner-mode t)
+ '(visible-bell t)
  '(yas-global-mode t nil (yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -532,6 +602,3 @@ to the current line, then call copy-region-as-kill."
  '(trailing-whitespace ((t (:background "#21262E"))))
  '(web-mode-comment-keyword-face ((t (:foreground "Pink" :slant italic :weight bold))))
  '(web-mode-current-element-highlight-face ((t (:inherit swiper-line-face)))))
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
