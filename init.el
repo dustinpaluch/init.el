@@ -231,6 +231,8 @@
   :init
   (ivy-mode 1)
   :config
+  (add-to-list 'ivy-completing-read-handlers-alist
+			   '(dired-create-directory . completing-read-default))
   (setq ivy-use-virtual-buffers 1)
   (setq ivy-wrap t)
   ;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
