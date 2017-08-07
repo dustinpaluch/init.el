@@ -136,6 +136,15 @@
 (use-package dired
   :config
   (setq dired-dwim-target t)
+  (defun osx-open ()
+	"Tell macOS to open the file at point."
+	(interactive)
+	(dired-smart-shell-command (concat "open " (dired-copy-filename-as-kill))))
+  (defun osx-quick-look ()
+	"Tell macOS to quick-view the file at point with `qlmanage -p`"
+	(interactive)
+	(dired-smart-shell-command
+	 (concat "qlmanage -p " (dired-copy-filename-as-kill) " > /dev/null 2>&1")))
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
   (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
   (define-key dired-mode-map (kbd "SPC") 'osx-quick-look)
