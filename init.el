@@ -35,7 +35,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-(setq fill-column 80)
+(setq-default fill-column 80)
 (setq frame-resize-pixelwise t)
 (setq global-visual-line-mode nil)
 (setq help-window-select t)
