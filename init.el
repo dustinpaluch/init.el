@@ -23,6 +23,14 @@
 
 
 ;;;; SET DEFAULTS
+(setq initial-scratch-message (concat ";; Scratch" (kbd "C-j")))
+(setq explicit-shell-file-name "/usr/local/bin/bash")
+(setq custom-file "~/.emacs.d/customize.el")
+(setq tab-width 4)
+(setq tags-revert-without-query t)
+(setq visible-bell t)
+
+(setq confirm-kill-emacs 'y-or-n-p)
 (setq cursor-type 'bar)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -168,9 +176,19 @@
     (paredit-mode 1))
   (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)) ; elisp-mode
 
+(use-package emmet-mode
+  :config
+  (setq emmet-move-cursor-between-quotes t)
+  (setq emmet-preview-default nil))
+
 (use-package erc
   :commands erc
   :config
+  (setq erc-server-auto-reconnect nil)
+  (setq erc-modules
+	'(autojoin button completion fill irccontrols list match menu
+		   move-to-prompt netsplit networks noncommands
+		   readonly ring stamp track truncate))
   (setq erc-fill-column 170)
   (setq erc-max-buffer-size 300000)
   (setq erc-input-line-position -1)
@@ -222,6 +240,11 @@
   (add-hook 'grep-mode-hook 'my-truncate-hook)
   (defun my-truncate-hook () (toggle-truncate-lines 1))) ; grep
 
+(use-package highlight-parentheses
+  :config
+  (setq hl-paren-colors '("red" "orange" "yellow" "green" "cyan3"
+			  "DodgerBlue3" "SlateBlue3" "HotPink3")))
+
 (use-package hydra
   :init
   (require 'lorem-ipsum)
@@ -234,7 +257,30 @@
     ("q" nil "quit"))) ; hydra
 
 (use-package ibuffer
-  :bind (("C-x C-b" . ibuffer))) ; ibuffer
+  :bind (("C-x C-b" . ibuffer))
+  :config
+  (setq ibuffer-saved-filter-groups
+	'(("Projects"
+	   ("beacon" (filename . "Projects/Beacon"))
+	   ("crs" (filename . "Projects/crs")))))
+  (setq ibuffer-saved-filters
+	'(("FTP"
+	   ((filename . "ftp")))
+	  ("gnus"
+	   ((or
+	     (mode . message-mode)
+	     (mode . mail-mode)
+	     (mode . gnus-group-mode)
+	     (mode . gnus-summary-mode)
+	     (mode . gnus-article-mode))))
+	  ("programming"
+	   ((or
+	     (mode . emacs-lisp-mode)
+	     (mode . cperl-mode)
+	     (mode . c-mode)
+	     (mode . java-mode)
+	     (mode . idl-mode)
+	     (mode . lisp-mode))))))) ; ibuffer
 
 (use-package ivy
   :init
@@ -316,6 +362,7 @@
   :init
   (projectile-global-mode 1)
   :config
+  (setq projectile-completion-system 'ivy)
   (define-key projectile-mode-map
     (kbd "C-c p D") 'projectile-find-dir-other-window)) ; projectile
 
@@ -373,6 +420,8 @@
 ;;(add-hook 'git-rebase-mode-hook 'my-git-rebase-mode-hook)
 
 (use-package web-mode
+  :bind (:map web-mode-map
+	 ("C-j" . emmet-expand-line))
   :mode ("\\.phtml\\'"
 	 "\\.php\\'"
 	 "\\.js\\'"
@@ -511,105 +560,6 @@ to the current line, then call copy-region-as-kill."
 (global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
 (global-set-key (kbd "M-D") 'my-kill-word-at-point)
 
-;;;; VIA CUSTOMIZE GUI
+;;;; LOAD CUSTOM-FILE
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(adaptive-fill-mode nil)
- '(column-number-mode nil)
- '(confirm-kill-emacs (quote y-or-n-p))
- '(custom-safe-themes
-   (quote
-	("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" default)))
- '(emmet-move-cursor-between-quotes t)
- '(emmet-preview-default nil)
- '(erc-modules
-   (quote
-	(autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands readonly ring stamp track truncate)))
- '(erc-server-auto-reconnect nil)
- '(explicit-shell-file-name "/usr/local/bin/bash")
- '(hl-paren-colors
-   (quote
-	("red" "orange" "yellow" "green" "cyan3" "DodgerBlue3" "SlateBlue3" "HotPink3")))
- '(ibuffer-saved-filter-groups
-   (quote
-	(("Projects"
-	  ("beacon"
-	   (filename . "Projects/Beacon"))
-	  ("crs"
-	   (filename . "Projects/crs"))))))
- '(ibuffer-saved-filters
-   (quote
-	(("FTP"
-	  ((filename . "ftp")))
-	 ("gnus"
-	  ((or
-		(mode . message-mode)
-		(mode . mail-mode)
-		(mode . gnus-group-mode)
-		(mode . gnus-summary-mode)
-		(mode . gnus-article-mode))))
-	 ("programming"
-	  ((or
-		(mode . emacs-lisp-mode)
-		(mode . cperl-mode)
-		(mode . c-mode)
-		(mode . java-mode)
-		(mode . idl-mode)
-		(mode . lisp-mode)))))))
- '(initial-scratch-message ";; Scratch
-")
- '(projectile-completion-system (quote ivy))
- '(rainbow-html-colors-major-mode-list
-   (quote
-	(html-mode css-mode scss-mode php-mode nxml-mode xml-mode)))
- '(safe-local-variable-values
-   (quote
-	 (projectile-project-name . "crs"))))
- '(scss-sass-options (quote ("-E 'UTF-8'")))
- '(tab-width 4)
- '(tags-revert-without-query t)
- '(visible-bell t)
- '(yas-global-mode t nil (yasnippet)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#161A1F" :foreground "#DEDEDE" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "nil" :family "Roboto Mono"))))
- '(bm-fringe-persistent-face ((t (:background "selectedMenuItemColor" :foreground "White"))))
- '(column-enforce-face ((t (:inherit trailing-whitespace))))
- '(ediff-even-diff-A ((t (:background "#565A5F"))))
- '(ediff-even-diff-B ((t (:background "#363A3F"))))
- '(ediff-even-diff-C ((t (:background "#565A5F"))))
- '(ediff-odd-diff-A ((t (:background "#363A3F"))))
- '(ediff-odd-diff-B ((t (:background "#565A5F"))))
- '(ediff-odd-diff-C ((t (:background "#363A3F"))))
- '(eldoc-highlight-function-argument ((t (:inherit bold :underline t))))
- '(erc-current-nick-face ((t (:foreground "cyan" :weight bold))))
- '(erc-input-face ((t (:foreground "#777"))))
- '(erc-my-nick-face ((t (:foreground "#FF0000" :weight bold))))
- '(erc-nick-default-face ((t (:foreground "#FD971F" :weight bold))))
- '(erc-notice-face ((t (:foreground "#2A4B54" :weight bold))))
- '(erc-prompt-face ((t (:foreground "#EEEEEE" :weight bold))))
- '(erc-timestamp-face ((t (:foreground "#A6E22E" :weight bold))))
- '(hl-paren-face ((t (:weight bold))) t)
- '(ivy-current-match ((t (:background "dark magenta"))))
- '(ivy-remote ((t (:foreground "coral1"))))
- '(mu4e-flagged-face ((t (:inherit outline-1 :weight bold))))
- '(mu4e-header-highlight-face ((t (:inherit swiper-line-face :weight bold))))
- '(mu4e-replied-face ((t (:inherit outline-4 :weight bold))))
- '(rainbow-delimiters-depth-1-face ((t (:foreground "red"))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "orange"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "green"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "blue"))))
- '(rainbow-delimiters-depth-6-face ((t (:foreground "purple"))))
- '(rainbow-delimiters-depth-7-face ((t (:foreground "violet"))))
- '(swiper-line-face ((t (:background "#2A313A"))))
- '(trailing-whitespace ((t (:background "#21262E"))))
- '(web-mode-comment-keyword-face ((t (:foreground "Pink" :slant italic :weight bold))))
- '(web-mode-current-element-highlight-face ((t (:inherit swiper-line-face)))))
+(load "~/.emacs.d/customize.el")
