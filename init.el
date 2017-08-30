@@ -26,7 +26,7 @@
 (setq initial-scratch-message (concat ";; Scratch" (kbd "C-j")))
 (setq explicit-shell-file-name "/usr/local/bin/bash")
 (setq custom-file "~/.emacs.d/customize.el")
-(setq tab-width 4)
+(setq-default tab-width 4)
 (setq tags-revert-without-query t)
 (setq visible-bell t)
 
