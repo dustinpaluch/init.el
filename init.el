@@ -67,14 +67,14 @@
   (eval
    `(defadvice ,command (after indent-region activate)
       (and (not current-prefix-arg)
-	   (member
-	    major-mode
-	    '(emacs-lisp-mode lisp-mode clojure-mode scheme-mode haskell-mode
-			      ruby-mode rspec-mode python-modec-mode c++-mode
-			      objc-mode latex-mode plain-tex-mode scss-mode
-			      css-mode))
-	   (let ((mark-even-if-inactive transient-mark-mode))
-	     (indent-region (region-beginning) (region-end) nil))))))
+		   (member
+			major-mode
+			'(emacs-lisp-mode lisp-mode clojure-mode scheme-mode haskell-mode
+							  ruby-mode rspec-mode python-modec-mode c++-mode
+							  objc-mode latex-mode plain-tex-mode scss-mode
+							  css-mode))
+		   (let ((mark-even-if-inactive transient-mark-mode))
+			 (indent-region (region-beginning) (region-end) nil))))))
 
 ;;;; REMOVE DEFAULT BINDINGS
 
@@ -111,9 +111,9 @@
 
 (use-package buffer-move
   :bind (("<M-s-up>" . buf-move-up)
-	 ("<M-s-down>" . buf-move-down)
-	 ("<M-s-left>" . buf-move-left)
-	 ("<M-s-right>" . buf-move-right))) ; buffer-mode
+		 ("<M-s-down>" . buf-move-down)
+		 ("<M-s-left>" . buf-move-left)
+		 ("<M-s-right>" . buf-move-right))) ; buffer-mode
 
 (use-package company
   :init
@@ -122,24 +122,24 @@
   :config
   (setq company-auto-complete-chars '(32 95 41 46))
   (setq company-dabbrev-code-modes
-	'(prog-mode batch-file-mode csharp-mode css-mode erlang-mode
-		    haskell-mode jde-mode lua-mode python-mode web-mode
-		    scss-mode))
+		'(prog-mode batch-file-mode csharp-mode css-mode erlang-mode
+					haskell-mode jde-mode lua-mode python-mode web-mode
+					scss-mode))
   (setq company-idle-delay 0.2)) ; company
 
 (use-package counsel
   :bind (("M-y" . counsel-yank-pop)
-	 ("M-x" . counsel-M-x)
-	 ("C-c g" . counsel-git)
-	 ("C-c j" . counsel-git-grep)
-	 ("C-c k" . counsel-ag))) ; counsel
+		 ("M-x" . counsel-M-x)
+		 ("C-c g" . counsel-git)
+		 ("C-c j" . counsel-git-grep)
+		 ("C-c k" . counsel-ag))) ; counsel
 
 (use-package cus-edit
   :bind (("C-h g" . customize-group))) ; cus-edit
 
 (use-package delete-window
   :bind (("s-0" . delete-window)
-	 ("s-1" . delete-other-windows))) ; delete-window
+		 ("s-1" . delete-other-windows))) ; delete-window
 
 (use-package dired
   :config
@@ -186,9 +186,9 @@
   :config
   (setq erc-server-auto-reconnect nil)
   (setq erc-modules
-	'(autojoin button completion fill irccontrols list match menu
-		   move-to-prompt netsplit networks noncommands
-		   readonly ring stamp track truncate))
+		'(autojoin button completion fill irccontrols list match menu
+				   move-to-prompt netsplit networks noncommands
+				   readonly ring stamp track truncate))
   (setq erc-fill-column 170)
   (setq erc-max-buffer-size 300000)
   (setq erc-input-line-position -1)
@@ -243,7 +243,7 @@
 (use-package highlight-parentheses
   :config
   (setq hl-paren-colors '("red" "orange" "yellow" "green" "cyan3"
-			  "DodgerBlue3" "SlateBlue3" "HotPink3")))
+						  "DodgerBlue3" "SlateBlue3" "HotPink3")))
 
 (use-package hydra
   :init
@@ -260,42 +260,42 @@
   :bind (("C-x C-b" . ibuffer))
   :config
   (setq ibuffer-saved-filter-groups
-	'(("Projects"
-	   ("beacon" (filename . "Projects/Beacon"))
-	   ("crs" (filename . "Projects/crs")))))
+		'(("Projects"
+		   ("beacon" (filename . "Projects/Beacon"))
+		   ("crs" (filename . "Projects/crs")))))
   (setq ibuffer-saved-filters
-	'(("FTP"
-	   ((filename . "ftp")))
-	  ("gnus"
-	   ((or
-	     (mode . message-mode)
-	     (mode . mail-mode)
-	     (mode . gnus-group-mode)
-	     (mode . gnus-summary-mode)
-	     (mode . gnus-article-mode))))
-	  ("programming"
-	   ((or
-	     (mode . emacs-lisp-mode)
-	     (mode . cperl-mode)
-	     (mode . c-mode)
-	     (mode . java-mode)
-	     (mode . idl-mode)
-	     (mode . lisp-mode))))))) ; ibuffer
+		'(("FTP"
+		   ((filename . "ftp")))
+		  ("gnus"
+		   ((or
+			 (mode . message-mode)
+			 (mode . mail-mode)
+			 (mode . gnus-group-mode)
+			 (mode . gnus-summary-mode)
+			 (mode . gnus-article-mode))))
+		  ("programming"
+		   ((or
+			 (mode . emacs-lisp-mode)
+			 (mode . cperl-mode)
+			 (mode . c-mode)
+			 (mode . java-mode)
+			 (mode . idl-mode)
+			 (mode . lisp-mode))))))) ; ibuffer
 
 (use-package ivy
   :init
   (ivy-mode 1)
   :config
   (add-to-list 'ivy-completing-read-handlers-alist
-	       '(dired-create-directory . completing-read-default))
+			   '(dired-create-directory . completing-read-default))
   (setq ivy-use-virtual-buffers 1)
   (setq ivy-wrap t)
   ;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
   (add-hook 'ivy-occur-mode-hook 'my-ivy-occur-mode-hook)
   (defun my-ivy-occur-mode-hook () (toggle-truncate-lines))
   :bind (("C-x b" . ivy-switch-buffer)
-	 ("C-c C-r" . ivy-resume)
-	 ("C-x B" . ivy-switch-buffer-other-window))) ; ivy
+		 ("C-c C-r" . ivy-resume)
+		 ("C-x B" . ivy-switch-buffer-other-window))) ; ivy
 
 (use-package magit
   :bind (("C-x g" . magit-status))
@@ -305,9 +305,9 @@
 
 (use-package multiple-cursors
   :bind (("C-<" . mc/mark-previous-like-this)
-	 ("C->" . mc/mark-next-like-this)
-	 ("C-c C-<" . mc/mark-all-like-this)
-	 ([s-mouse-1] . mc/add-cursor-on-click))) ; multiple-cursors
+		 ("C->" . mc/mark-next-like-this)
+		 ("C-c C-<" . mc/mark-all-like-this)
+		 ([s-mouse-1] . mc/add-cursor-on-click))) ; multiple-cursors
 
 (use-package org
   :config
@@ -341,9 +341,9 @@
    'package-archives
    '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (setq package-archive-priorities
-	'(("melpa-stable" . 20)
-	  ("gnu" . 10)
-	  ("melpa" . 0)))) ; package
+		'(("melpa-stable" . 20)
+		  ("gnu" . 10)
+		  ("melpa" . 0)))) ; package
 
 (use-package paradox
   :config
@@ -385,21 +385,21 @@
   :init
   (column-number-mode 1)
   :bind (("<s-left>" . move-beginning-of-line)
-	 ("<s-right>" . move-end-of-line)
-	 ("<s-up>" . beginning-of-buffer)
-	 ("<s-down>" . end-of-buffer))) ; simple
+		 ("<s-right>" . move-end-of-line)
+		 ("<s-up>" . beginning-of-buffer)
+		 ("<s-down>" . end-of-buffer))) ; simple
 
 (use-package swiper
   :bind (("C-s" . swiper)
-	 ("C-r" . swiper)
-	 ("C-S-s" . swiper-all))) ; swiper
+		 ("C-r" . swiper)
+		 ("C-S-s" . swiper-all))) ; swiper
 
 (use-package tramp
   :config
   (setq tramp-default-method "ssh")
   ;; ignore backup-directory-alist for TRAMP files
   (add-to-list 'backup-directory-alist
-	       (cons tramp-file-name-regexp nil))) ; tramp
+			   (cons tramp-file-name-regexp nil))) ; tramp
 
 (use-package term
   :config
@@ -408,8 +408,8 @@
 
 (use-package transpose-frame
   :bind (("<f13>" . rotate-frame-anticlockwise)
-	 ("<f15>" . rotate-frame-clockwise)
-	 ("<f14>" . flip-frame))) ; transpose-frame
+		 ("<f15>" . rotate-frame-clockwise)
+		 ("<f14>" . flip-frame))) ; transpose-frame
 
 ;; disable bell for some events
 (setq ring-bell-function 'my-bell-function)
@@ -421,11 +421,11 @@
 
 (use-package web-mode
   :bind (:map web-mode-map
-	 ("C-j" . emmet-expand-line))
+			  ("C-j" . emmet-expand-line))
   :mode ("\\.phtml\\'"
-	 "\\.php\\'"
-	 "\\.js\\'"
-	 "\\.php.inactive\\'")
+		 "\\.php\\'"
+		 "\\.js\\'"
+		 "\\.php.inactive\\'")
   :config
   (setq web-mode-engines-alist '(("php" . "\\.php.inactive\\'")))
   (setq web-mode-markup-indent-offset 4)
@@ -440,27 +440,27 @@ including the quotation marks."
     (interactive)
     (let ((cursor (point)))
       (when (search-backward "'" (line-beginning-position) t)
-	(forward-char)
-	(set-mark (point))
-	(when (search-forward "'" (line-end-position) t)
-	  (backward-char)
-	  (exchange-point-and-mark)))))
+		(forward-char)
+		(set-mark (point))
+		(when (search-forward "'" (line-end-position) t)
+		  (backward-char)
+		  (exchange-point-and-mark)))))
   (defun my-mark-outside-single-quotes ()
     "Mark the current single-quoted string, including the quotation
 marks."
     (interactive)
     (let ((cursor (point)))
       (when (search-backward "'" (line-beginning-position) t)
-	(set-mark (point))
-	(forward-char)
-	(when (search-forward "'" (line-end-position) t)
-	  (exchange-point-and-mark)))))
+		(set-mark (point))
+		(forward-char)
+		(when (search-forward "'" (line-end-position) t)
+		  (exchange-point-and-mark)))))
   (defun my-add-web-mode-expansions ()
     (make-variable-buffer-local 'er/try-expand-list)
     (setq er/try-expand-list (append
-			      er/try-expand-list
-			      '(my-mark-inside-single-quotes
-				my-mark-outside-single-quotes))))
+							  er/try-expand-list
+							  '(my-mark-inside-single-quotes
+								my-mark-outside-single-quotes))))
   (defun my-yas-after-exit-snippet-hook ()
     (web-mode-buffer-highlight))
   (defun my-web-mode-hook ()
@@ -469,7 +469,7 @@ marks."
     (setq require-final-newline nil)
     (my-add-web-mode-expansions)
     (add-hook 'yas-after-exit-snippet-hook
-	      'my-yas-after-exit-snippet-hook))
+			  'my-yas-after-exit-snippet-hook))
   (add-hook 'web-mode-hook  'my-web-mode-hook)) ; web-mode
 
 (use-package which-key
@@ -479,9 +479,9 @@ marks."
 
 (use-package windmove
   :bind (("<C-s-up>" . windmove-up)
-	 ("<C-s-down>" . windmove-down)
-	 ("<C-s-left>" . windmove-left)
-	 ("<C-s-right>" . windmove-right))) ; windmove
+		 ("<C-s-down>" . windmove-down)
+		 ("<C-s-left>" . windmove-left)
+		 ("<C-s-right>" . windmove-right))) ; windmove
 
 (use-package winner
   :init
@@ -492,7 +492,7 @@ marks."
 
 (use-package zop-to-char
   :bind (("M-z" . zop-to-char)
-	 ("C-c C-c M-z" . zap-to-char))) ; zop-to-char
+		 ("C-c C-c M-z" . zap-to-char))) ; zop-to-char
 
 ;;;; DEFINE AND BIND CUSTOM FUNCTIONS
 
@@ -502,10 +502,10 @@ marks."
   "If region is active, call copy-region-as-kill as usual. Otherwise, set region
 to the current line, then call copy-region-as-kill."
   (interactive (list (mark) (point)
-		     (prefix-numeric-value current-prefix-arg)))
+					 (prefix-numeric-value current-prefix-arg)))
   (save-excursion
     (if (region-active-p)
-	(copy-region-as-kill beg end region)
+		(copy-region-as-kill beg end region)
       (move-beginning-of-line nil)
       (set-mark-command nil)
       (move-end-of-line nil)
@@ -517,10 +517,10 @@ to the current line, then call copy-region-as-kill."
   (interactive)
   (if mark-active
       (progn
-	(kill-region (region-beginning) (region-end))
-	(yank)
-	(newline-and-indent)
-	(yank))
+		(kill-region (region-beginning) (region-end))
+		(yank)
+		(newline-and-indent)
+		(yank))
     (progn
       (kill-whole-line)
       (yank)
@@ -529,9 +529,9 @@ to the current line, then call copy-region-as-kill."
 
 (defun my-bell-function ()
   (unless (memq this-command
-		'(isearch-abort abort-recursive-edit exit-minibuffer
-				keyboard-quit mwheel-scroll down up next-line
-				previous-line backward-char forward-char))
+				'(isearch-abort abort-recursive-edit exit-minibuffer
+								keyboard-quit mwheel-scroll down up next-line
+								previous-line backward-char forward-char))
     (ding)))
 
 (defun my-kill-word-at-point ()
