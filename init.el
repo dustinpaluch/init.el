@@ -496,6 +496,8 @@ marks."
 
 ;;;; DEFINE AND BIND CUSTOM FUNCTIONS
 
+(global-set-key (kbd "C-c i")
+				(lambda () (interactive) (find-file user-init-file)))
 
 (global-set-key (kbd "M-w") 'my-kill-ring-save-dwim)
 (defun my-kill-ring-save-dwim (beg end &optional region)
