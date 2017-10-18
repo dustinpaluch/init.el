@@ -1,12 +1,14 @@
 ;;;; PACKAGE SETUP
 
 (package-initialize)
-(require 'use-package)
 
 ;; ADD LISP DIRECTORY TO LOAD PATH
 
 (let ((default-directory "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
+
+(require 'use-package)
+
 
 ;;;; LOAD THEME
 
