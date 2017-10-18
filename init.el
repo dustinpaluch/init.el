@@ -377,6 +377,10 @@
   (define-key projectile-mode-map
     (kbd "C-M-.") 'projectile-find-tag)) ; projectile
 
+(use-package rainbow-mode
+  :config
+  (setq rainbow-html-colors-major-mode-list
+		'(html-mode css-mode scss-mode php-mode nxml-mode xml-mode)))
 
 (use-package recentf
   :init
