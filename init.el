@@ -373,7 +373,10 @@
   :config
   (setq projectile-completion-system 'ivy)
   (define-key projectile-mode-map
-    (kbd "C-c p D") 'projectile-find-dir-other-window)) ; projectile
+    (kbd "C-c p D") 'projectile-find-dir-other-window)
+  (define-key projectile-mode-map
+    (kbd "C-M-.") 'projectile-find-tag)) ; projectile
+
 
 (use-package recentf
   :init
