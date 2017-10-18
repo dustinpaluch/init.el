@@ -194,7 +194,7 @@
 		'(autojoin button completion fill irccontrols list match menu
 				   move-to-prompt netsplit networks noncommands
 				   readonly ring stamp track truncate))
-  (setq erc-fill-column 170)
+  ;; (setq erc-fill-column 170)
   (setq erc-max-buffer-size 300000)
   (setq erc-input-line-position -1)
   (setq erc-hide-list '("JOIN" "PART" "QUIT"))
@@ -215,8 +215,8 @@
   ;; ;; MOVE ERC TIMESTAMP
   ;; (setq erc-timestamp-only-if-changed-flag nil
   ;; 	 erc-timestamp-format "%s "
-  ;; 	 erc-fill-prefix "      "
-  ;; 	 erc-insert-timestamp-function 'erc-insert-timestamp-left)
+  ;; 	 erc-fill-prefix "      ")
+  (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
   (defun my-erc-mode-hook ()
     (company-mode -1)
     (electric-pair-local-mode -1))
