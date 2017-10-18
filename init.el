@@ -448,6 +448,7 @@
   (setq web-mode-css-indent-offset 4)
   (setq web-mode-code-indent-offset 4)
   (setq web-mode-indent-style 4)
+  (setq web-mode-enable-auto-indentation nil)
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-content-types-alist '(("jsx"  . ".*\\.js[x]?\\'")))
   (defun my-mark-inside-single-quotes ()
