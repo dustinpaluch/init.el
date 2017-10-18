@@ -481,6 +481,7 @@ marks."
   (defun my-yas-after-exit-snippet-hook ()
     (web-mode-buffer-highlight))
   (defun my-web-mode-hook ()
+	(toggle-truncate-lines 1)
     (emmet-mode 1)
     (git-gutter+-mode 1)
     (setq require-final-newline nil)
