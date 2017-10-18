@@ -146,6 +146,9 @@
 (use-package dired
   :config
   (setq dired-dwim-target t)
+  (defun my-dired-mode-hook ()
+	(dired-hide-details-mode 1))
+  (add-hook 'dired-mode-hook 'my-dired-mode-hook)
   (defun osx-open ()
     "Tell macOS to open the file at point."
     (interactive)
