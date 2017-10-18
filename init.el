@@ -222,6 +222,8 @@
     (electric-pair-local-mode -1))
   (add-hook 'erc-mode-hook 'my-erc-mode-hook)) ; erc
 
+(use-package etags-update) ; etags-update
+
 (use-package exec-path-from-shell
   :init
   ;; match path with shell
