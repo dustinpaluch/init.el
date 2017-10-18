@@ -235,6 +235,8 @@
 
 (use-package geben
   :commands geben
+  :bind (("<f16>" . geben)
+		 ("<f19>" . geben-end))
   :config
   (defun my-vagrant-geben-path-prefix (path)
     (let ((ip (geben-session-ip-get session)))
