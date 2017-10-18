@@ -3,7 +3,7 @@
 (package-initialize)
 (require 'use-package)
 
-;; MANUALLY INSTALLED PACKAGES
+;; ADD LISP DIRECTORY TO LOAD PATH
 
 (let ((default-directory "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
