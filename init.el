@@ -44,6 +44,7 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (delete-selection-mode 1)
+(blink-cursor-mode -1)
 (global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 (setq global-auto-revert-mode t)
 (setq scroll-conservatively 10000)
