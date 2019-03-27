@@ -272,7 +272,7 @@
 (use-package etags-update) ; etags-update
 
 (use-package exec-path-from-shell
-  :init
+  :config
   ;; match path with shell
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize))) ; exec-path-from-shell
