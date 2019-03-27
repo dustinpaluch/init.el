@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Org Quote
+# key: #+Q
+# --
+#+BEGIN_QUOTE $1
+$0
+#+END_QUOTE
+

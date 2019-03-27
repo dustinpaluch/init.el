@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: CSS Important
+# key: !imp
+# --
+!important

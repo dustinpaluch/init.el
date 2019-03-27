@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: PHP Function Documentation
+# key: ??
+#expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+/**
+ * $1
+ * 
+ * @since      $2
+ * @param      $3
+ * @return     $4
+ */

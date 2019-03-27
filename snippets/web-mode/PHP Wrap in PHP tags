@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: PHP Wrap in PHP tags
+# binding: C-c ?
+# --
+<?php `yas-selected-text`$0 ?>

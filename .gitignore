@@ -1,7 +1,8 @@
 # Ignore Everything
-*
+/*
 
 # Except...
 !.gitignore
 !init.el
 !customize.el
+!snippets

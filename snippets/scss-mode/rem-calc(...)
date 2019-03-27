@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: rem-calc(...)
+# key: rem
+# --
+rem-calc($0)

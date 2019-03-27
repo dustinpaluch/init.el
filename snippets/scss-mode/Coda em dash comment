@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Coda em dash comment
+# key: /!
+# --
+//! ${1:-$(make-string (length yas-text) ?–)} $0

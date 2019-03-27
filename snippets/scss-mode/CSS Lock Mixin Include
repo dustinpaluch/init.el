@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: CSS Lock Mixin Include
+# key: @lock
+# --
+@include lock(${1:property}, ${2:`
+
+(save-excursion
+  (if (search-backward "include breakpoint" nil t)
+	  (let ((string (thing-at-point 'line t)))
+		(car (delq nil (mapcar (lambda (breakpoint)
+								 (when (string-match-p (regexp-quote breakpoint) string)
+								   (concat "$" breakpoint "-lock")))
+							   '("small" "medium" "large" "xlarge" "xxlarge")))))
+	"breakpoint-range"))
+		  
+`}, $0);

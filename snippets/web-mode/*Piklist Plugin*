@@ -1,0 +1,41 @@
+# key: piklist
+# name: Piklist Plugin# key: piklist
+# name: Piklist Plugin
+# --
+<?php
+/**
+ * ${1:Plugin Name}
+ * Created `(format-time-string "%m/%d/%Y @ %H:%M %p")`
+ *
+ * @package     ${2:PluginPackage}
+ * @author      Chatman Design / Dustin Paluch <dustin@chatmandesign.com>
+ * @link        https://chatmandesign.com
+ * @copyright   `(format-time-string "%Y")` Chatman Design
+ *
+ * @wordpress-plugin
+ * Plugin Name: $1
+ * Plugin Type: Piklist
+ * Description: ${3:Plugin Description}
+ * Version:     ${4:Version}
+ * Author:      Chatman Design
+ * Author URI:  https://chatmandesign.com
+ */
+
+// Pre-run checks
+if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+add_action('init', function(){
+	if ( is_admin() ) {
+		include_once 'class-piklist-checker.php';
+
+		if (!piklist_checker::check(__FILE__)) {
+			return;
+		}
+	}
+}); // add_action init
+
+// Load plugin code
+// require plugin_dir_path( __FILE__ ) . 'lib/${5:...}';
+
+// Initialize plugin
+// add_action( 'plugins_loaded', array('ChatmanDesign\\${6:...}', 'init') );

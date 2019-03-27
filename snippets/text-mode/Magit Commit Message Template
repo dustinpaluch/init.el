@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Magit Commit Message Template
+# key: ###
+# --
+# If applied, this commit will...
+$1
+# Why was this change made?
+$2
+# References to Asana issues, bitbucket commits, etc.
+Related:
+$3

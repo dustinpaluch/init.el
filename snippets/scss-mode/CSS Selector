@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: CSS Selector
+# key: {}
+# --
+${1:selector} {
+	$0
+} // $1

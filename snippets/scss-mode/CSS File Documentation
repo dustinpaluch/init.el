@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: CSS File Documentation
+# key: ???
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+/**
+ * $1
+ *
+ * @package    $2
+ * @author     Chatman Design / Dustin Paluch <dustin@chatmandesign.com>
+ * @link       https://chatmandesign.com
+ * @copyright  `(format-time-string "%Y")` Chatman Design
+ */

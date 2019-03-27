@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Org Source Block
+# key: #+S
+# --
+#+BEGIN_SRC $1
+$0
+#+END_SRC
+

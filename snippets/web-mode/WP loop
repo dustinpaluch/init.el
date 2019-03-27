@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: WP loop
+# key: loop
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+<?php if ( $${1:query}->have_posts() ): ?>
+
+	<div>
+		<?php while ( $$1->have_posts() ) : $$1->the_post(); ?>
+			  $0
+		<?php endwhile; ?>
+	</div>
+
+	<?php wp_reset_postdata(); // Prevent weirdness ?>
+<?php endif; ?>

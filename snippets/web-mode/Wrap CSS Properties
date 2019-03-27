@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Wrap CSS Properties
+# binding: C-c {
+# --
+${1:selector} {
+   `yas-selected-text`$0
+} // $1

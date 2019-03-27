@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Foundation SCSS Breakpoints
+# key: sml
+# --
+@include breakpoint(small) {
+	$0
+} // breakpoint(small)
+@include breakpoint(medium) {} // breakpoint(medium)
+@include breakpoint(large) {} // breakpoint(large)
