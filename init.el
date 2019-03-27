@@ -245,6 +245,7 @@
 				   readonly ring stamp track truncate))
   (setq erc-max-buffer-size 300000)
   (setq erc-input-line-position -1)
+  (setq erc-lurker-threshold-time 3600)
   (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
   (setq erc-prompt-for-password nil)
   (setq erc-nick "paluche")
