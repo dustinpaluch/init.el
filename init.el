@@ -263,7 +263,7 @@
   ;; (setq erc-timestamp-only-if-changed-flag nil
   ;; 	 erc-timestamp-format "%s "
   ;; 	 erc-fill-prefix "      ")
-  (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
+  ;; (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
   (defun my-erc-mode-hook ()
     (company-mode -1)
     (electric-pair-local-mode -1))
