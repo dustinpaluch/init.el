@@ -106,6 +106,10 @@
 (global-unset-key (kbd "s-w"))			; close frame
 (global-set-key (kbd "s-W") 'delete-frame)
 
+;;;; ADD BINDINGS
+
+(global-set-key (kbd "M-s r") 'rgrep)
+
 ;;;; PACKAGE CONFIGURATION
 
 (use-package ag
