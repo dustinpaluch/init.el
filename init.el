@@ -613,9 +613,24 @@
   (setq web-mode-css-indent-offset 4)
   (setq web-mode-code-indent-offset 4)
   (setq web-mode-indent-style 4)
-  (setq web-mode-enable-auto-indentation nil)
+  (setq web-mode-enable-auto-quoting nil)
+  (setq web-mode-enable-auto-indentation t)
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-content-types-alist '(("jsx"  . ".*\\.js[x]?\\'")))
+
+  (define-key web-mode-map (kbd "C-c <M-tab>") 'my-toggle-web-mode-indentation)
+  (defun my-toggle-web-mode-indentation ()
+	"Some documents have screwed up indentation that I can't
+fix,so we can toggle the auto indent features off."
+	(interactive)
+	(if web-mode-enable-auto-indentation
+		(progn (setq-local web-mode-enable-auto-indentation nil)
+			   (electric-indent-local-mode -1)
+			   (message "auto-indentation disabled"))
+	  (setq-local web-mode-enable-auto-indentation t)
+	  (electric-indent-local-mode 1)
+	  (message "auto-indentation enabled")))
+
   (defun my-mark-inside-single-quotes ()
     "Mark the inside of the current single-quoted string, not
 including the quotation marks."
