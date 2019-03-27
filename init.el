@@ -139,9 +139,8 @@
 		 ("<M-s-right>" . buf-move-right))) ; buffer-mode
 
 (use-package company
-  :init
-  (global-company-mode 1)
   :config
+  (global-company-mode)
   (setq company-auto-complete-chars '(32 95 41 46))
   (setq company-dabbrev-code-modes
 		'(prog-mode batch-file-mode csharp-mode css-mode erlang-mode
