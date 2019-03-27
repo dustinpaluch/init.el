@@ -298,6 +298,12 @@
   (add-to-list 'grep-find-ignored-files "*.min.*")
   (defun my-truncate-hook () (toggle-truncate-lines 1))) ; grep
 
+(use-package highlight-indent-guides
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-character ?\|))
+
 (use-package highlight-parentheses
   :config
   (setq hl-paren-colors '("red" "orange" "yellow" "green" "cyan3"
