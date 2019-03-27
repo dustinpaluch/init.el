@@ -28,6 +28,7 @@
 
 ;;;; SET DEFAULTS
 (setq initial-scratch-message (concat ";; Scratch" (kbd "C-j")))
+(setq inhibit-splash-screen t)
 (setq explicit-shell-file-name "/usr/local/bin/bash")
 (setq custom-file "~/.emacs.d/customize.el")
 (setq-default tab-width 4)
