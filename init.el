@@ -447,6 +447,13 @@
   :config
   (setq recentf-max-menu-items 20)) ; recentf
 
+(use-package rjsx-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+  :config
+  (add-hook 'rjsx-mode-hook 'my-rjsx-mode-hook)
+  (defun my-rjsx-mode-hook () (smartparens-mode 1)))
+
 (use-package savehist
   :init (savehist-mode 1)) ; savehist
 
