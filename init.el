@@ -36,7 +36,6 @@
 (setq visible-bell t)
 
 (setq confirm-kill-emacs 'y-or-n-p)
-(setq cursor-type 'bar)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
