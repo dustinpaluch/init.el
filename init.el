@@ -354,6 +354,8 @@
 			   '(dired-create-directory . completing-read-default))
   (setq ivy-use-virtual-buffers 1)
   (setq ivy-wrap t)
+  (add-to-list 'ivy-sort-functions-alist '(describe-function . string-lessp))
+  (add-to-list 'ivy-sort-matches-functions-alist '(describe-function . string-lessp))
   ;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
   (add-hook 'ivy-occur-mode-hook 'my-ivy-occur-mode-hook)
   (defun my-ivy-occur-mode-hook () (toggle-truncate-lines))
