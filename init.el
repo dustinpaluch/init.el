@@ -83,6 +83,10 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; don't show messages when we're in the minibuffer
+(add-hook 'minibuffer-setup-hook (lambda () (setq inhibit-message t)))
+(add-hook 'minibuffer-exit-hook (lambda () (setq inhibit-message nil)))
+
 ;;;; REMOVE DEFAULT BINDINGS
 
 (global-unset-key (kbd "s-p"))			; print
