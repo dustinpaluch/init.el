@@ -12,16 +12,18 @@
 
 ;;;; LOAD THEME
 
-(require 'spolsky-theme)
-(require 'smart-mode-line)
-(add-to-list
- 'custom-safe-themes
- "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11")
-(add-to-list
- 'custom-safe-themes
- "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa")
-(load-theme 'spolsky)
-(smart-mode-line-enable)
+(use-package spolsky-theme
+  :config
+  (add-to-list
+   'custom-safe-themes
+   "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11")
+  (add-to-list
+   'custom-safe-themes
+   "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa")
+  (load-theme 'spolsky))
+(use-package smart-mode-line
+  :config
+  (smart-mode-line-enable))
 
 
 ;;;; SET DEFAULTS
