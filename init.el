@@ -642,6 +642,19 @@ including the quotation marks."
 		(when (search-forward "'" (line-end-position) t)
 		  (backward-char)
 		  (exchange-point-and-mark)))))
+
+  (defun my-mark-inside-double-quotes ()
+    "Mark the inside of the current double-quoted string, not
+including the quotation marks."
+    (interactive)
+    (let ((cursor (point)))
+      (when (search-backward "\"" (line-beginning-position) t)
+		(forward-char)
+		(set-mark (point))
+		(when (search-forward "\"" (line-end-position) t)
+		  (backward-char)
+		  (exchange-point-and-mark)))))
+
   (defun my-mark-outside-single-quotes ()
     "Mark the current single-quoted string, including the quotation
 marks."
@@ -652,12 +665,27 @@ marks."
 		(forward-char)
 		(when (search-forward "'" (line-end-position) t)
 		  (exchange-point-and-mark)))))
+
+  (defun my-mark-outside-double-quotes ()
+    "Mark the current double-quoted string, including the
+quotation marks."
+    (interactive)
+    (let ((cursor (point)))
+      (when (search-backward "\"" (line-beginning-position) t)
+		(set-mark (point))
+		(forward-char)
+		(when (search-forward "\"" (line-end-position) t)
+		  (exchange-point-and-mark)))))
+
   (defun my-add-web-mode-expansions ()
     (make-variable-buffer-local 'er/try-expand-list)
     (setq er/try-expand-list (append
 							  er/try-expand-list
 							  '(my-mark-inside-single-quotes
-								my-mark-outside-single-quotes))))
+								my-mark-inside-double-quotes
+								my-mark-outside-single-quotes
+								my-mark-outside-double-quotes))))
+
   (defun my-yas-after-exit-snippet-hook ()
     (web-mode-buffer-highlight))
   (defun my-web-mode-hook ()
