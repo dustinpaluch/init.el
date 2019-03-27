@@ -546,7 +546,8 @@ marks."
     (setq require-final-newline nil)
     (my-add-web-mode-expansions)
     (add-hook 'yas-after-exit-snippet-hook
-			  'my-yas-after-exit-snippet-hook))
+			  'my-yas-after-exit-snippet-hook)
+	(smartparens-mode 1))
   (add-hook 'web-mode-hook  'my-web-mode-hook)) ; web-mode
 
 (use-package which-key
