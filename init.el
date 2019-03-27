@@ -370,6 +370,79 @@
 			'magit-process-password-auth-source)
   (setq magit-completing-read-function 'ivy-completing-read)) ; magit
 
+(use-package mu4e
+  :init
+  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e")
+  :commands mu4e
+  :config
+  (setq mu4e-update-interval 120)
+  (setq send-mail-function 'smtpmail-send-it)
+  (setq mu4e-compose-signature-auto-include nil)
+  (setq message-send-mail-function 'smtpmail-send-it
+		smtpmail-smtp-server "smtp.gmail.com"
+		smtpmail-smtp-service 587)
+  ;; don't keep message buffers around
+  (setq message-kill-buffer-on-exit t)
+  (setq mu4e-maildir  "~/Mail/gmail")
+  (setq mu4e-drafts-folder "/drafts")
+  (setq mu4e-sent-folder   "/sent")
+  (setq mu4e-trash-folder  "/trash")
+  (setq mu4e-refile-folder "/all")
+  ;; better html visibility for dark themes
+  (setq shr-color-visible-luminance-min 80)
+  ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+  (setq mu4e-sent-messages-behavior 'delete)
+  ;; allow for updating mail using 'U' in the main view:
+  (setq mu4e-get-mail-command "mbsync gmail")
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-compose-dont-reply-to-self t)
+  ;; these must start with a "/", and must exist
+  ;; (i.e.. /home/user/Maildir/sent must exist)
+  ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
+  ;; already exist
+  (setq mu4e-maildir-shortcuts
+		'( ("/inbox"  . ?i)
+		   ("/drafts" . ?d)
+		   ("/sent"   . ?s)
+		   ("/trash"  . ?t)
+		   ("/all"    . ?a)))
+
+  (setq mu4e-bookmarks
+		`(,(make-mu4e-bookmark
+			:name "Unread messages"
+			:query "flag:unread AND NOT flag:trashed"
+			:key ?u)
+		  ,(make-mu4e-bookmark
+			:name "Today's inbox"
+			:query "date:today..now maildir:/inbox"
+			:key ?t)
+		  ,(make-mu4e-bookmark
+			:name "Last seven days inbox"
+			:query "date:7d..now maildir:/inbox"
+			:key ?w)))
+
+  (add-to-list 'mu4e-view-actions
+			   '("View in browser" . mu4e-action-view-in-browser) t)
+  (define-key mu4e-headers-mode-map (kbd "f") 'mu4e-headers-mark-for-flag)
+  (define-key mu4e-headers-mode-map (kbd "a") 'mu4e-headers-mark-for-refile)
+  (define-key mu4e-headers-mode-map (kbd "r") 'mu4e-compose-reply)
+  (define-key mu4e-headers-mode-map (kbd "G")
+    (lambda () (interactive) (mu4e-update-mail-and-index t)))
+  (defun my-set-dynamic-mu4e-headers-width ()
+	(let* ((window-width (window-text-width (get-buffer-window)))
+		   (offset 5)
+		   (date-width 12)
+		   (flags-width 6)
+		   (from-width 20)
+		   (subject-width (- window-width
+							 (+ date-width flags-width from-width offset))))
+	  (setq mu4e-headers-fields
+			`((:human-date . ,date-width)
+			  (:flags      .  ,flags-width)
+			  (:subject    . ,subject-width)
+			  (:from       . ,from-width)))))
+  (add-hook 'mu4e-main-mode-hook 'my-set-dynamic-mu4e-headers-width)
+  (add-hook 'mu4e-headers-mode-hook 'my-set-dynamic-mu4e-headers-width)) ; mu4e
 
 (use-package multiple-cursors
   :bind (("C-<" . mc/mark-previous-like-this)
