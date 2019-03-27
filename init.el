@@ -190,7 +190,17 @@
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
   (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
   (define-key dired-mode-map (kbd "SPC") 'osx-quick-look)
-  (define-key dired-mode-map (kbd "<s-return>") 'osx-open)) ; dired
+  (define-key dired-mode-map (kbd "<s-return>") 'osx-open)
+  (defun my-dired-download-file (url file-name)
+	(interactive
+	 ;; We're forced to let-bind url here since we access it before interactive
+	 ;; binds the function parameters.
+	 (let ((url (read-from-minibuffer "URL: ")))
+	   (list url
+			 (read-from-minibuffer "File name: "
+								   (car (last (split-string url "/")))))))
+	(url-copy-file url (concat dired-directory file-name))
+	(revert-buffer))) ; dired
 
 (use-package dired-aux
   :defer t
