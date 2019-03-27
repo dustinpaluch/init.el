@@ -87,6 +87,12 @@
 (add-hook 'minibuffer-setup-hook (lambda () (setq inhibit-message t)))
 (add-hook 'minibuffer-exit-hook (lambda () (setq inhibit-message nil)))
 
+(defun my-toggle-line-numbers ()
+  (interactive)
+  (display-line-numbers-mode 'toggle))
+(global-set-key (kbd "<left-fringe> <mouse-1>") 'my-toggle-line-numbers)
+
+
 ;;;; REMOVE DEFAULT BINDINGS
 
 (global-unset-key (kbd "s-p"))			; print
