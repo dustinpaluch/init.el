@@ -243,24 +243,21 @@
 		'(autojoin button completion fill irccontrols list match menu
 				   move-to-prompt netsplit networks noncommands
 				   readonly ring stamp track truncate))
-  ;; (setq erc-fill-column 170)
   (setq erc-max-buffer-size 300000)
   (setq erc-input-line-position -1)
   (setq erc-hide-list '("JOIN" "PART" "QUIT"))
   (setq erc-prompt-for-password nil)
   (setq erc-nick "paluche")
   ;; ERC BUFFER LOCAL FILL COLUMN
-  ;; (make-variable-buffer-local 'erc-fill-column)
-  ;; (add-hook 'window-configuration-change-hook 
-  ;; 		 '(lambda ()
-  ;; 			(save-excursion
-  ;; 			  (walk-windows
-  ;; 			   (lambda (w)
-  ;; 				 (let ((buffer (window-buffer w)))
-  ;; 				   (set-buffer buffer)
-  ;; 				   (when (eq major-mode 'erc-mode)
-  ;; 					 (setq erc-fill-column (- (window-width w) 2)))))))))
-
+  (add-hook 'window-configuration-change-hook
+			(lambda ()
+			  (save-excursion
+				(walk-windows
+				 (lambda (w)
+				   (let ((buffer (window-buffer w)))
+					 (set-buffer buffer)
+					 (when (eq major-mode 'erc-mode)
+					   (setq erc-fill-column (- (window-width w) 2)))))))))
   ;; ;; MOVE ERC TIMESTAMP
   ;; (setq erc-timestamp-only-if-changed-flag nil
   ;; 	 erc-timestamp-format "%s "
