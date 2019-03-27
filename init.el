@@ -294,6 +294,8 @@
   :config
   (setq wgrep-enable-key "r")
   (add-hook 'grep-mode-hook 'my-truncate-hook)
+  (add-to-list 'grep-find-ignored-files "*.map")
+  (add-to-list 'grep-find-ignored-files "*.min.*")
   (defun my-truncate-hook () (toggle-truncate-lines 1))) ; grep
 
 (use-package highlight-parentheses
