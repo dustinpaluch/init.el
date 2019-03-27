@@ -119,6 +119,7 @@
   (setq ag-reuse-window nil)) ; ag
 
 (use-package ange-ftp
+  :defer t
   :config
   (setq ange-ftp-netrc-filename "~/.authinfo.gpg"))
 
@@ -126,6 +127,7 @@
   :bind (("C-h a" . apropos))) ; apropos
 
 (use-package auth-source
+  :defer t
   :config
   (setq auth-source-debug 'trivia)
   (setq auth-sources '("~/.authinfo.gpg")))
@@ -154,6 +156,7 @@
 		 ("C-c g" . counsel-git)
 		 ("C-c j" . counsel-git-grep)
 		 ("C-c k" . counsel-ag))) ; counsel
+  :defer t
 
 (use-package cus-edit
   :bind (("C-h g" . customize-group))) ; cus-edit
@@ -163,6 +166,7 @@
 		 ("s-1" . delete-other-windows))) ; delete-window
 
 (use-package dired
+  :defer t
   :config
   (setq dired-dwim-target t)
   (defun my-dired-mode-hook ()
@@ -183,6 +187,7 @@
   (define-key dired-mode-map (kbd "<s-return>") 'osx-open)) ; dired
 
 (use-package dired-aux
+  :defer t
   :config
   (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip"))) ; dired-aux
 
@@ -190,10 +195,12 @@
   :bind (("C-x C-j" . dired-jump))) ; dired-x
 
 (use-package ediff
+  :defer t
   :config
   (defalias 'ediff 'ediff-buffers)) ; ediff
 
 (use-package elisp-mode
+  :defer t
   :config
   (defun my-emacs-lisp-mode-hook ()
     (eldoc-mode 1)
@@ -201,6 +208,7 @@
   (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)) ; elisp-mode
 
 (use-package emmet-mode
+  :defer t
   :config
   (setq emmet-move-cursor-between-quotes t)
   (setq emmet-preview-default nil))
