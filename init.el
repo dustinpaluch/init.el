@@ -81,6 +81,8 @@
 		   (let ((mark-even-if-inactive transient-mark-mode))
 			 (indent-region (region-beginning) (region-end) nil))))))
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;;;; REMOVE DEFAULT BINDINGS
 
 (global-unset-key (kbd "s-p"))			; print
