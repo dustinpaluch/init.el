@@ -583,6 +583,21 @@ to the current line, then call copy-region-as-kill."
 (global-set-key (kbd "C-S-y") 'my-yank-replacing-line)
 (global-set-key (kbd "M-D") 'my-kill-word-at-point)
 
+(defun my-split-window-below-at-point ()
+  "Split the selected window into two windows along the current line."
+  (interactive)
+  (split-window-below (+ 2 (my-visible-line-number-at-point))))
+
+(defun my-split-window-right-at-point ()
+  "Split the selected window into two windows along the current column."
+  (interactive)
+  (split-window-right (current-column)))
+
+(defun my-visible-line-number-at-point ()
+  "Get the line number at point relative to the first visible
+line in the current window."
+  (- (line-number-at-pos) (line-number-at-pos (window-start))))
+
 ;;;; LOAD CUSTOM-FILE
 
 (load "~/.emacs.d/customize.el")
