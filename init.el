@@ -366,7 +366,9 @@
 (use-package magit
   :bind (("C-x g" . magit-status))
   :config
-  (setq magit-completing-read-function 'ivy-completing-read)) ; magit 
+  (add-hook 'magit-process-find-password-functions
+			'magit-process-password-auth-source)
+  (setq magit-completing-read-function 'ivy-completing-read)) ; magit
 
 
 (use-package multiple-cursors
