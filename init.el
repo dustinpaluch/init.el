@@ -458,15 +458,41 @@
   (add-hook 'org-mode-hook 'my-org-mode-hook)
   (defun my-org-mode-hook ()
     (org-indent-mode 1)
-    (local-set-key (kbd "s-p") 'org-pomodoro))) ; org
+    (local-set-key (kbd "s-p") 'my-org-pomodoro)
+	(local-set-key (kbd "s-P") (lambda () (interactive)
+								 (let ((org-clock-continuously t))
+								   (my-org-pomodoro)))))
+  (setq org-default-notes-file "~/Documents/notes.org")) ; org
 
 (use-package org-pomodoro
-  :commands org-pomodoro
+  :commands my-org-pomodoro
   :config
   (setq org-pomodoro-finished-sound-p nil)
-  (setq org-pomodoro-long-break-length 6)
+  (setq org-pomodoro-length 120)
+  (setq org-pomodoro-long-break-length 0)
+  (setq org-pomodoro-short-break-length 0)
   (setq org-pomodoro-long-break-sound-p nil)
   (setq org-pomodoro-play-sounds nil)
+
+  (defun minutes-elapsed-today ()
+	(let* ((time (decode-time))
+		   (minutes (nth 1 time))
+		   (hours (nth 2 time)))
+	  (+ (* 60 hours) minutes)))
+
+  (defun dynamic-pomodoro-length (cutoff)
+	(let* ((minutes-elapsed (minutes-elapsed-today))
+		   (minutes-until-cutoff (- cutoff minutes-elapsed)))
+	  ;; return a value between 1 and 60 minutes depending on how close we are
+	  (if (< minutes-until-cutoff 1)
+		  org-pomodoro-length
+		(min minutes-until-cutoff org-pomodoro-length))))
+
+  (defun my-org-pomodoro ()
+	(interactive)
+	(let ((org-pomodoro-length (dynamic-pomodoro-length 1020)))
+	  (org-pomodoro)))
+
   (add-hook 'org-pomodoro-finished-hook 'my-org-pomodoro-finished-hook)
   (defun my-org-pomodoro-finished-hook ()
     (beep)
