@@ -141,7 +141,6 @@
 (use-package company
   :init
   (global-company-mode 1)
-  (company-statistics-mode 1)
   :config
   (setq company-auto-complete-chars '(32 95 41 46))
   (setq company-dabbrev-code-modes
@@ -149,6 +148,12 @@
 					haskell-mode jde-mode lua-mode python-mode web-mode
 					scss-mode))
   (setq company-idle-delay 0.2)) ; company
+
+(use-package company-statistics
+  :config
+  (company-statistics-mode))
+
+
 
 (use-package counsel
   :bind (("M-y" . counsel-yank-pop)
