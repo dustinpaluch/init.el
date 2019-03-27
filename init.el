@@ -237,6 +237,7 @@
 (use-package erc
   :commands erc
   :config
+  (setq erc-accidental-paste-threshold-seconds 1)
   (setq erc-server-auto-reconnect nil)
   (setq erc-modules
 		'(autojoin button completion fill irccontrols list match menu
