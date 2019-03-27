@@ -162,7 +162,12 @@
 		 ("C-c k" . counsel-ag)
 		 ("C-c SPC" . counsel-mark-ring))) ; counsel
 
+(use-package css-mode
   :defer t
+  :config
+  (add-hook 'css-mode-hook 'my-css-mode-hook)
+  (defun my-css-mode-hook ()
+	(toggle-truncate-lines 1)))
 
 (use-package cus-edit
   :bind (("C-h g" . customize-group))) ; cus-edit
