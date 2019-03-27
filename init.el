@@ -115,7 +115,7 @@
 (use-package ag
   :bind (("C-c s" . ag))
   :config
-  (setq ag-ignore-list '("*.min.*"))
+  (setq ag-ignore-list '("*.min.*" "*.map"))
   (setq ag-reuse-window nil)) ; ag
 
 (use-package ange-ftp
