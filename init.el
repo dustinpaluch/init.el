@@ -527,7 +527,11 @@
   :config
   (setq projectile-completion-system 'ivy)
   (define-key projectile-mode-map
-    (kbd "C-c p D") 'projectile-find-dir-other-window)
+	(kbd "C-c p D") 'projectile-find-dir-other-window)
+  (define-key projectile-mode-map
+	(kbd "C-c p f") 'projectile-find-file)
+  (define-key projectile-mode-map
+	(kbd "C-c p d") 'projectile-find-dir)
   (define-key projectile-mode-map
     (kbd "C-M-.") 'projectile-find-tag)) ; projectile
 
